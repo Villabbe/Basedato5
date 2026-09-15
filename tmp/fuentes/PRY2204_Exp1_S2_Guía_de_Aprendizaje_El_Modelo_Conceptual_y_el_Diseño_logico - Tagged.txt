@@ -1,0 +1,535 @@
+PAGINA 1
+Guía de aprendizaje 
+Procesos de Modelamiento 
+Entidad-Relación (MER)
+Exp 1 – Semana 2
+Modelamiento de Bases de Datos 
+(PRY2204)
+Facilitador disciplinar: Rocío Contreras Águila
+Asesor par: Alejandra Gajardo
+
+PAGINA 2
+2
+Índice
+Introducción a la semana...........................................................................................................2
+Resultado de aprendizaje..........................................................................................................3
+Conceptos relevantes................................................................................................................4
+Preguntas activadoras...............................................................................................................4
+Actividad.....................................................................................................................................5
+Estableciendo el Modelo conceptual.........................................................................................5
+Punto de partida en el diseño de bases de datos...........................................................6
+Relaciones.......................................................................................................................6
+Cardinalidad..................................................................................................................10
+Grado de las relaciones...........................................................................................................18
+Atributos en las relaciones.......................................................................................................20
+Vistas de usuario......................................................................................................................21
+Oracle SQL Data Modeler.............................................................................................25
+Cierre de la semana.................................................................................................................27
+Referencias..............................................................................................................................28
+Lecturas de la semana.............................................................................................................29
+Apuntes....................................................................................................................................29
+PAGINA 3
+3
+Introducción a la semana
+Te encuentras en la segunda semana de la 
+asignatura “Modelamiento de Bases de 
+Datos”. La semana pasada dimos el primer 
+vistazo al panorama general de la gestión y 
+organización de la información a través de 
+herramientas como el Modelo de Entidad-
+Relación (ER)
+Identificaste entidades representadas por 
+objetos o conceptos principales del sistema 
+que se desea modelar, por ejemplo: personas, productos o eventos. Cada entidad posee sus 
+propios atributos, representado por características o propiedades, como por ejemplo el 
+nombre de una persona, el precio de un producto o la fecha de un evento. Definiendo 
+claramente las entidades y sus respectivos atributos garantizaremos una base de datos clara 
+y representativa del problema real que estamos resolviendo.
+Esta semana analizaremos cómo las entidades se relacionan entre sí mediante relaciones, 
+que nos ayudan a capturar la interacción o asociación entre los datos. Aprenderás sobre la 
+cardinalidad, un concepto que describe cuántas instancias de una entidad pueden asociarse 
+con una instancia de otra, como "un cliente puede hacer varias compras" o "un producto 
+puede pertenecer a una sola categoría". 
+Te invitamos a revisar la siguiente guía para que aprendas a dominar el modelamiento de los 
+datos.
+
+PAGINA 4
+4
+Resultado de aprendizaje
+El estudiante será capaz de:
+RA1. Diseña el modelo conceptual de datos para la representación de información, de 
+acuerdo con los requerimientos de la organización.
+Indicador de logro:
+IL3. Representa relaciones y su cardinalidad entre las entidades asociadas al problema 
+planteado con elementos simples y extendidos.
+Conceptos relevantes
+Base de datos Cardinalidad Relación entre entidades
+Requerimiento Diagrama Buenas prácticas
+PAGINA 5
+5
+Preguntas activadoras
+ ¿Cómo describirías la función del Modelo Conceptual en el diseño de bases de datos 
+y por qué es crucial comprender las entidades y relaciones antes de entrar en los 
+detalles de implementación?
+ Si tuvieras que diseñar un modelo de datos para un jardín infantil, ¿cómo 
+identificarías las entidades principales y sus atributos más relevantes?
+ ¿Cómo explicarías la importancia de la cardinalidad en las relaciones entre entidades, 
+y qué problemas podrían surgir si no se define correctamente?
+Actividad
+Descripción de la actividad
+En esta segunda semana, realizarás una actividad formativa en pareja, llamada 
+"Representando procesos de Modelamiento Entidad-Relación (MER)”, en donde como parte 
+del objetivo de diseñar un modelo conceptual de datos para la representación de 
+información, te invitamos a desarrollar un Modelo Entidad-Relación (MER) basado en un 
+caso práctico, que dará continuidad al trabajo realizado en la primera semana. En esta 
+actividad, será necesario que: 
+ Identifiques todas las entidades, con sus atributos identificadores, atributos 
+obligatorios y opcionales. 
+ Identifiques las relaciones entre las entidades. 
+  Analices y determines los tipos de datos más adecuados para cada atributo, así como 
+su dominio. 
+PAGINA 6
+6
+Estableciendo el Modelo conceptual
+Punto de partida en el diseño de bases de datos
+El diseño de bases de datos es un proceso esencial en el desarrollo de sistemas de 
+información y se compone de diversas fases que permiten estructurar y organizar la 
+información de manera eficiente. Dos etapas fundamentales en este proceso son:
+ El Modelo Conceptual.
+ El Diseño Lógico.
+El Modelo conceptual constituye el punto de partida en el diseño de bases de datos. En esta 
+fase, se busca comprender y representar de manera abstracta las entidades, sus 
+propiedades y las relaciones entre ellas. Pero este término no es nuevo, puesto que 
+indirectamente, te lo presentamos la semana anterior. 
+Al modelar un caso de negocio, la identificación de las entidades, atributos y relaciones 
+depende directamente de la naturaleza del negocio, así como de sus restricciones y reglas. 
+Por ello, es fundamental comprender a profundidad cada uno de estos elementos para poder 
+reflejar de manera adecuada todos los aspectos necesarios en el modelo. Además, es 
+esencial que las entidades estén conectadas entre sí para representar las interacciones 
+lógicas del sistema.
+Relaciones
+Una relación es una asociación bidireccional y significativa entre ambas entidades, o entre 
+una entidad y ella misma. Cada relación asocia una instancia de cada una de las entidades 
+involucradas en ella. 
+Una relación representa las reglas de negocio que une a las entidades. Siempre hay dos 
+reglas de negocio para cada relación.
+PAGINA 7
+7
+Figura 1
+Ejemplo de relación entre entidades 
+Nota. La figura muestra un modelo entidad-relación (E/R) básico que representa la relación 
+entre las entidades DEPARTAMENTO y EMPLEADO. Oracle. (2024). SQL Developer Data 
+Modeler. https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+En el siguiente ejemplo están relacionadas las entidades DEPARTAMENTO y EMPLEADO, y 
+las reglas del negocio son:
+Entidades departamento y empleado
+Veamos a continuación como leer una relación en un modelo Entidad-Relación (ER), ya que 
+implica interpretar cómo las entidades están conectadas y entender la cardinalidad, el tipo de 
+relación y sus restricciones.
+Un departamento puede estar formado por uno o muchos 
+empleados. 
+Un empleado debe pertenecer a uno y un solo departamento.
+PAGINA 8
+8
+Figura 2
+Relación entidad Departamento y Empleado
+Nota. La figura representa un modelo entidad-relación (E/R) que describe la cardinalidad y 
+opcionalidad entre las entidades DEPARTAMENTO y EMPLEADO. Oracle. (2024). SQL 
+Developer Data Modeler. https://www.oracle.com/co/database/sqldeveloper/technologies/sql-
+data-modeler/
+Cada dirección de la relación tiene ciertas características que se pueden especificar en el 
+modelo ER:
+ETIQUETA Nombre de la relación. Es un verbo. En el modelo se muestra 
+como una etiqueta que aparece cerca de la entidad a la que 
+está asignado. Es necesario asegurarse que todos los 
+nombres de relación estén en minúsculas. Por ejemplo: 
+"asignado a" o "responsable".
+CARDINALIDAD MÍNIMA 
+(U OPCIONAL) Puede ser opcional (cero) u obligatoria (al menos uno). La 
+línea discontinua de la relación indica que la relación es 
+opcional y la línea continua de la relación indica que la 
+relación es obligatoria.
+CARDINALIDAD MÁXIMA 
+(O GRADO) Puede ser uno o muchos.
+PAGINA 9
+9
+ Línea: Usar "uno y solo uno". 
+ Pata de gallo: Usar "uno o muchos".
+El símbolo 
+   que se encuentra al costado de la entidad EMPLEADO representa que el 
+departamento está asociado a uno o muchos empleados y se le llama pata de gallo por su 
+similitud con el pie de dicho animal.
+Con el fin de establecer las reglas de negocio para cada relación, primero se lee una 
+relación en una dirección y luego se lee la relación en la otra dirección. 
+A continuación, analiza los siguientes ejemplos y revisa como las relaciones se leerían de la 
+siguiente forma:
+Figura 3
+Relaciones entre Entidades en un Modelo Entidad-Relación (E/R)
+En una asignatura se inscriben uno o muchos estudiantes.
+ 
+Un estudiante está inscrito en una o varias asignaturas.
+PAGINA 10
+10
+Un cliente puede hacer uno o muchos pedidos.
+Un pedido es realizado por un cliente.
+Un empleado efectúa un trabajo.
+Un trabajo es realizado por uno o muchos empleados.
+Nota. La figura presenta tres ejemplos de relaciones entre entidades en un modelo entidad-
+relación (E/R). Oracle. (2024). SQL Developer Data Modeler. 
+https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+Cardinalidad
+La cardinalidad es el número mínimo y máximo en que las instancias de las entidades se 
+relacionan. La cardinalidad mínima y máxima se representan en la misma relación.
+ La Cardinalidad Mínima indica si es obligatorio u opcional que todas las instancias 
+de ambas entidades se relacionen. Se representa en el mismo lado de la entidad 
+desde donde se lee la relación.
+PAGINA 11
+11
+ La Cardinalidad Máxima indica la cantidad de veces (1 o muchas) que las instancias 
+de ambas entidades se relacionan. Se representa al lado contrario de la entidad 
+desde donde se lee la relación.
+Figura 4
+Ejemplo de cardinalidad entre Departamento y Empleado
+Nota. La figura muestra un modelo entidad-relación (E/R) detallando las cardinalidades 
+mínima y máxima entre las entidades DEPARTAMENTO y EMPLEADO. Oracle. (2024). SQL 
+Developer Data Modeler. https://www.oracle.com/co/database/sqldeveloper/technologies/sql-
+data-modeler/
+En la imagen puedes ver que:
+ Un DEPARTAMENTO puede estar formado por uno o varios EMPLEADOS.
+ Un EMPLEADO debe estar asignado a un DEPARTAMENTO.
+PAGINA 12
+12
+Cardinalidad máxima
+La cardinalidad máxima con la que una entidad participa en una relación corresponde al 
+número mínimo y máximo de ocurrencias en las que puede tomar parte cada entidad. Se 
+pueden distinguir las siguientes opciones de cardinalidad máxima:
+ Relación UNO A MUCHOS (1:N o 1:M) o MUCHOS A UNO (N:1 o M:1): Se 
+caracteriza por tener cardinalidad de uno o más en una dirección y un grado de uno y 
+sólo uno en la otra dirección. Esto significa que una instancia de una entidad A se 
+puede relacionar con una o varias instancias de la entidad B y que una instancia de la 
+entidad B se puede relacionar con solo una instancia de la entidad A. Este tipo de 
+relación es la más frecuente.
+Figura 5
+Ejemplo Relación Uno a muchos
+Nota. La figura ilustra la asignación de profesores a diferentes departamentos en una 
+institución. Instituto de Tecnologías Educativas. (2020). Uno a muchos | Bases de datos en 
+la enseñanza. 
+http://www.zenodoto.com/gestiondocs/cursosacademicos/manualesrecursos/
+materalesformaciondocenteTIC/TIC7_BASE/m2_3/uno_a_muchos.html 
+PAGINA 13
+13
+Veamos unos ejemplos:
+Figura 6
+Relaciones entre Cliente-Pedido y Empleado-Trabajo en un Modelo E/R
+Un cliente puede hacer uno o muchos pedidos
+Un pedido es realizado por uno y sólo un cliente
+Un empleado efectúa uno y solo un trabajo
+Un trabajo es realizado por uno o muchos empleados
+Nota. Las imágenes muestran ejemplos de relaciones en un modelo entidad-relación (E/R). 
+Oracle. (2024). SQL Developer Data Modeler. 
+https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 14
+14
+ Relación MUCHOS A MUCHOS (M:M o M:N): Se caracterizan porque tienen 
+cardinalidad de uno o más en ambas direcciones. Esto significa que una instancia de 
+una entidad A se puede relacionar con una o varias instancias de la entidad B y que 
+una instancia de la entidad B se puede relacionar con una o varias instancias de la 
+entidad A.
+Figura 7
+Ejemplo Relación Muchos a Muchos
+Nota. La figura ilustra la asignación de profesores a diferentes grupos de clase, 
+representados como 1°A, 1°D, y 2°B. Instituto de Tecnologías Educativas. (2020). Muchos a 
+muchos | Bases de datos en la enseñanza. 
+http://www.zenodoto.com/gestiondocs/cursosacademicos/manualesrecursos/
+materalesformaciondocenteTIC/TIC7_BASE/m2_3/muchos_a_muchos.html
+PAGINA 15
+15
+Veamos unos ejemplos:
+Figura 8
+Relaciones en Modelos Entidad-Relación: Asignatura-Estudiante y Actor-Película
+En una asignatura se inscriben uno o muchos estudiantes
+Un estudiante está inscrito en una o muchas asignaturas
+Un actor participa en una o muchas películas
+En una película actúan uno o muchos actores
+Nota. La figura presenta dos ejemplos de relaciones en modelos entidad-relación (E/R). 
+Oracle. (2024). SQL Developer Data Modeler. 
+https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 16
+16
+ Relación UNO A UNO (1:1): Tienen una cardinalidad de uno y sólo uno en ambas 
+direcciones. Esto significa que una instancia de una entidad A se puede relacionar 
+con una instancia de la entidad B y que una instancia de la entidad B se puede 
+relacionar con una instancia de la entidad A. Este tipo de relaciones son las menos 
+comunes.
+Figura 9
+Ejemplo Relación Uno a Uno
+Nota. La figura muestra la relación entre un tutor, identificado como Carlos Pérez, y un grupo 
+de estudiantes pertenecientes al grupo 2°A. Instituto de Tecnologías Educativas. (2020). Uno 
+a uno | Bases de datos en la enseñanza. 
+http://www.zenodoto.com/gestiondocs/cursosacademicos/manualesrecursos/
+materalesformaciondocenteTIC/TIC7_BASE/m2_3/uno_a_uno.html
+Ejemplos de esto serían los siguientes: 
+PAGINA 17
+17
+Figura 10
+Relaciones entre Entidades en Modelos Conceptuales
+Un operario es encargado de una y solo una maquinaria
+Una maquinaria es manejada por uno y solo un operario
+Un computador contiene una y solo una placa madre
+Una placa madre es contenida por un y solo un computador
+Nota. La figura muestra dos ejemplos de relaciones en un modelo entidad-relación (E/R). 
+Oracle. (2024). SQL Developer Data Modeler. 
+https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 18
+18
+Grado de las relaciones
+La cantidad de entidades en una relación determina el grado de la relación, por ello podemos 
+distinguir las asociaciones Unaria, Binaria, Ternaria y N-Aria.
+ Asociación recursiva o unaria: es una relación entre ocurrencias de una misma 
+entidad. Pueden ser 1:1, 1:N o M:N.
+Figura 11
+Ejemplo de asociación recursiva o unaria
+Nota. La figura presenta dos ejemplos de relaciones reflexivas en un modelo entidad-
+relación (E/R) dentro de la entidad EMPLEADO. Oracle. (2024). SQL Developer Data 
+Modeler. https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+ Asociación binaria: es una relación entre ocurrencias de dos entidades. Pueden ser 1:1, 
+1:N o M:N.
+PAGINA 19
+19
+Figura 12
+Ejemplo de asociación binaria
+Nota. La figura representa la relación entre las entidades CLIENTE y PEDIDO en un modelo 
+entidad-relación (E/R). Oracle. (2024). SQL Developer Data Modeler. 
+https://www.oracle.com/co/database/sqldeveloper/technologies/sql-data-modeler/
+ Asociación ternaria: es una relación simultánea entre ocurrencias de tres de entidades. 
+En el ejemplo, las asignaturas de un alumno correspondientes al curso en el que está 
+son evaluadas con una o muchas notas. En general para las relaciones ternarias se 
+recomienda tener 2 o 3 relaciones binarias.
+Figura 13
+Ejemplo de asociación ternaria
+Nota. La figura presenta un modelo entidad-relación (E/R) que representa un sistema 
+académico donde se registran las evaluaciones de los estudiantes. Oracle. (2024). SQL 
+PAGINA 20
+20
+Developer Data Modeler. https://www.oracle.com/co/database/sqldeveloper/technologies/sql-
+data-modeler/
+Atributos en las relaciones
+Consideremos una entidad EMPLEADO y una 
+entidad DESPACHO y supongamos que a los 
+empleados se les asignan despachos donde trabajar. La 
+figura del margen muestra la interrelaciones entre las 
+entidades EMPLEADO y DESPACHO.
+En ocasiones, interesa reflejar algunas propiedades de las 
+relaciones. Por este motivo, las interrelaciones pueden tener también atributos. Los atributos 
+de las relaciones, igual que los de las entidades, tienen un cierto dominio, deben tomar 
+valores atómicos y deben ser univaluados.
+Importante
+Los atributos de las interrelaciones se representan mediante su nombre en minúsculas 
+unido con un guion al rombo de la interrelación a la que pertenecen.
+Observemos a continuación un ejemplo de atributo de una interrelación: 
+
+PAGINA 21
+21
+Puedes ver en la imagen que la interrelación ‘evaluación’ conecta a las entidades 
+‘ESTUDIANTE’ y ‘ASIGNATURA’ e incluye el atributo ‘nota’, que indica la calificación 
+obtenida por un estudiante en una asignatura específica. El atributo ‘nota’ no puede 
+pertenecer a ninguna de las dos entidades de forma independiente, ya que:
+ Si fuera atributo de ESTUDIANTE, no sería univaluado porque un estudiante puede 
+tener múltiples notas, una por cada asignatura.
+ Si fuera atributo de ASIGNATURA, tampoco sería univaluado, pues cada asignatura 
+podría tener varias notas, una por cada estudiante matriculado.
+Por lo tanto, ‘nota’ debe ser un atributo de la interrelación ‘evaluación’, ya que está 
+simultáneamente relacionado con un estudiante y una asignatura.
+Links de interés
+Te invitamos a seguir leyendo sobre las interrelaciones en el siguiente enlace, donde 
+conocerás los grados de las interrelaciones e interrelaciones binarias:
+https://www.dataprix.com/es/bases-datos-master-software-libre-uoc/212-grado-
+interrelaciones
+PAGINA 22
+22
+Video
+En el siguiente enlace, encontrarás un tutorial que proporciona la descripción básica de los 
+modelos ER y una formación paso a paso sobre cómo hacer un diagrama Entidad-Relación 
+con la cardinalidad correcta:
+https://youtu.be/TKuxYHb-Hvc?si=deLPOt8Aq-xZ9snB
+Vistas de usuario
+La vista de usuario es información que nos permitirá obtener un análisis mucho más 
+detallado y certero de los requerimientos que el usuario pueda y quiera estar expresando. 
+Satisfacen los requisitos de información de los usuarios y aplicaciones especificados, 
+ofreciendo una estructura de información natural y fácil de comprender. Además, las vistas 
+de usuario eliminan características innecesarias que el usuario no necesita, permitiendo así 
+un correcto entendimiento de los requerimientos. Esto dará como resultado un sistema 
+robusto, ágil, eficiente y desarrollado en el menor tiempo posible.
+Las vistas de usuario se pueden representar de dos formas:
+ Mockup y/o bocetos diseñados por el mismo cliente, incluso pueden ser dibujos 
+realizados por el mismo cliente en un papel en blanco.
+ Documentos reales que el cliente utiliza para desarrollar su trabajo diario.
+PAGINA 23
+23
+Figura 14
+Ejemplos de interfaces y documentos en sistemas digitales
+Nota. La figura presenta tres ejemplos distintos de interfaces y documentos en sistemas 
+digitales.
+Para identificar y modelar las entidades a través de las Vistas de Usuarios, considera lo 
+siguiente: 
+A continuación, en los siguientes ejemplos te mostraremos los datos que podemos obtener:
+
+PAGINA 24
+24
+Figura 15
+Ejemplo de factura electrónica
+CLIENTE
+ Nombre cliente
+ Rut del cliente
+ Dirección del cliente
+ Comuna
+ Ciudad
+ Teléfono
+PRODUCTO
+ Cantidad de productos 
+comprados
+ Detalle del producto
+ Precio unitario
+ Importe (total) del producto
+Nota. La figura presenta una factura electrónica emitida por la Universidad de Chile el 17 de 
+abril de 2003. SII. (s.f.). Universidad de Chile (NIC Chile). 
+https://www.sii.cl/factura_electronica/609100001.htm
+PAGINA 25
+25
+Figura 16
+Ejemplo de orden de compra pagada
+CLIENTE
+ Nombre cliente
+ Dirección del cliente
+ Comuna
+ Región
+ Código postal
+ País
+PRODUCTO
+ Descripción
+ Total
+ Impuesto
+TRANSACCION
+ Id Transacción
+ Fecha
+ Medio de pago
+Nota. La figura muestra una orden de compra emitida por Rackeo SpA con el número 
+68419.
+PAGINA 26
+26
+Figura 17
+Comprobante de venta con tarjeta de débito
+EMPRESA
+ Nombre empresa
+ Nombre vendedor
+ Dirección
+ RUT
+ Comuna
+ Código
+ Etc.
+VENTA
+ Fecha
+ Hora
+ Terminal POS
+ Monto
+ Total
+ Etc.
+TRANSACCIÓN
+ Número de operación
+ Código de autorización
+ Moneda
+ Etc.
+Nota. La figura presenta un comprobante de venta válido como boleta, emitido por el 
+comercio Armijo Bike en Talagante, Chile.
+Ahora que conoces más de los modelos Entidad Relación, podremos diagramarlos usando la 
+herramienta Oracle SQL Developer Data Modeler. 
+Oracle SQL Data Modeler
+Como te mencionamos la semana anterior, Oracle 
+SQL Data Modeler es una herramienta gráfica 
+gratuita que mejora la productividad y simplifica las 
+tareas de modelado de datos. 
+
+PAGINA 27
+27
+Links de interés
+ Ya deberías de haber realizado la descarga. Si no lo has hecho aún, puedes hacerlo 
+a través del siguiente enlace: 
+https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/download/
+ Además, en el siguiente enlace encontrarás un tutorial para la utilización de la 
+herramienta: 
+https://github.com/juan-bol/Modelado
+Figura 18
+Interfaz de uso Oracle SQL Developer
+PAGINA 28
+28
+Nota: Menú principal de Oracle Data Modeler. Oracle Help Center. (s.f.). Database SQL 
+Developer User’s Guide. https://docs.oracle.com/cd/B32485_01/appdev.110/b31695/intro.htm
+Videos 
+En el siguiente video, también encontrarás un tutorial que te ayudará a la hora de utilizar la 
+herramienta: 
+https://www.youtube.com/watch?v=A6f8T1jA_ho
+
+PAGINA 29
+29
+Cierre de la semana
+El modelo conceptual se enfoca en proporcionar una representación abstracta y 
+comprensible de las entidades, atributos y relaciones entre los datos. A través de 
+herramientas como los diagramas entidad-relación, este modelo captura la esencia del 
+sistema sin preocuparse por los detalles de implementación, ofreciendo una visión clara de 
+la estructura de datos a un nivel elevado.
+Esta semana aprendimos cómo las vistas de usuario permiten presentar la información de 
+manera personalizada y adaptada a las necesidades de cada usuario final, facilitando la 
+interpretación y consulta de los datos almacenados. Comprender estos conceptos no solo te 
+permitirá diseñar bases de datos bien definidas sino también desarrollar sistemas que 
+respondan a las necesidades de los usuarios. 
+¡Aplica lo aprendido esta semana para fortalecer tus habilidades en el modelamiento de 
+bases de datos!
+
+PAGINA 30
+30
+Referencias
+ DataPrix. (2009). Introducción al diseño de bases de datos. Dataprix. 
+https://www.dataprix.com/es/bases-datos-master-software-libre-uoc/introduccion-al-
+diseno-bases-datos
+ Sánchez, J. (s.f.). Manual de Gestión de Bases de Datos - Modelo Entidad/Relación.  
+https://jorgesanchez.net/manuales/gbd/entidad-relacion.html
+Lecturas de la semana
+Unidad 2: Diseño conceptual. El modelo entidad relación. 
+Postigo, A. (2021). Bases de datos. Ediciones Paraninfo S.A. 
+https://webezproxy.duoc.cl/login?url=http://biblioteca.duoc.cl/bdigital/elibros/a49346-
+Bases_de_datos/61/ Páginas 49 a 62.
+PAGINA 31
+31
+Apuntes
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+PAGINA 32
+Reservados todos los derechos Fundación Instituto Profesional Duoc UC. No se permite copiar, reproducir, 
+reeditar, descargar, publicar, emitir, difundir, de forma total o parcial la presente obra, ni su incorporación a un 
+sistema informático, ni su transmisión en cualquier forma o por cualquier medio (electrónico, mecánico, 
+fotocopia, grabación u otros) sin autorización previa y por escrito de Fundación Instituto Profesional Duoc UC 
+La infracción de dichos derechos puede constituir un delito contra la propiedad intelectual. 

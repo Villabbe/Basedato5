@@ -1,0 +1,721 @@
+PAGINA 1
+Guía de aprendizaje 
+MER y el Modelo Relacional
+Exp 2 – Semana 5
+Modelamiento de Bases de Datos 
+Facilitador disciplinar: Rocío Contreras Águila
+Asesor par: Alejandra Gajardo
+Índice
+
+PAGINA 2
+2
+Introducción a la semana...........................................................................................................2
+Resultado de aprendizaje..........................................................................................................3
+Conceptos relevantes................................................................................................................4
+Preguntas activadoras...............................................................................................................4
+Actividad.....................................................................................................................................5
+Etapas del diseño base de datos relacionales..........................................................................5
+Modelo Relacional......................................................................................................................7
+Terminología de los Modelos Relacionales.....................................................................9
+Cómo se transforman las entidades........................................................................................18
+Entidades fuertes..........................................................................................................19
+Entidades débiles..........................................................................................................29
+Restricciones de integridad......................................................................................................32
+Restricciones de integridad referencial.........................................................................33
+Restricciones de participación total...............................................................................34
+Diseño Físico...........................................................................................................................34
+Cómo generar el Script en Oracle SQL Developer Data Modeler................................35
+Cierre de la semana.................................................................................................................39
+Referencias..............................................................................................................................40
+Lecturas de la semana.............................................................................................................41
+Apuntes....................................................................................................................................41
+PAGINA 3
+3
+Introducción a la semana
+Te encuentras en la quinta semana de tu 
+experiencia de aprendizaje. Si bien 
+recuerdas, la semana anterior estuvimos 
+revisando los conceptos de normalización 
+en el modelo conceptual de bases de 
+datos, y esta semana aprenderás a trabajar 
+con Modelos Lógicos: los modelos 
+relacionales. 
+Un modelo relacional (MR) es representación lógica de los datos, basada en la organización 
+de la información en tablas (o relaciones), donde cada tabla está compuesta por filas (tuplas) 
+y columnas (atributos). Este modelo se fundamenta en conceptos clave como claves 
+primarias, utilizadas para identificar de manera única cada tupla dentro de una tabla, y 
+claves foráneas, que permiten establecer relaciones entre tablas diferentes. 
+A lo largo de esta semana, aprenderemos a transformar modelos conceptuales a modelos 
+lógicos, cómo mapear las entidades, relaciones y atributos de un modelo ER (MER) en 
+tablas, columnas y claves de un modelo relacional (MR), respetando las reglas de integridad 
+y garantizando la consistencia de los datos. Y así, nos aproximaremos al modelo físico de la 
+base de datos. 
+
+PAGINA 4
+4
+Resultado de aprendizaje
+El estudiante será capaz de:
+RA2. Aplica conceptos avanzados de modelamiento de datos en la construcción de modelo 
+de datos implementado en bases de datos relacionales.
+Indicador de logro:
+IL5. Aplica la normalización (1FN, 2FN, 3FN) en el modelo conceptual para eliminar la 
+redundancia en los datos asociados al problema planteado. 
+IL6. Representa relaciones (tablas), sus columnas y claves primarias entre las relaciones en 
+el modelo relacional normalizado asociadas al problema planteado.
+IL7. Representa claves foráneas entre las relaciones del modelo relacional normalizado 
+asociados al problema planteado.
+Conceptos relevantes
+SQL Developer Modelo físico Modelo lógico
+Tablas Clave Primaria Clave Foránea
+Bases de datos Relacional Tupla Relaciones
+PAGINA 5
+5
+Preguntas activadoras
+ ¿Cómo garantizamos la integridad referencial al transformar un modelo Entidad 
+Relación a un Modelo Relacional?
+ Si en los modelos Entidad Relación existen 3 tipos de relaciones (1:1, 1:N y N:M), 
+¿cuántos tipos de relaciones podemos tener en modelos relacionales?
+ ¿Cómo se manejan las jerarquías y herencias durante las reglas de transformación a 
+un modelo relacional?
+Actividad
+Descripción de la actividad
+En esta quinta semana, realizarás una actividad sumativa individual con encargo llamada 
+"Transformando el MER en Modelo Relacional", en donde deberás dar solución al caso 
+planteado desarrollando un Modelo Entidad-Relación Extendido (MER-E) Normalizado, el 
+que deberás transformar a modelo relacional. Además, deberás analizar y determinar los 
+tipos de datos más adecuados para cada atributo, así como su dominio.
+PAGINA 6
+6
+Etapas del diseño base de datos relacionales
+Como hemos ido viendo a través de las semanas anteriores, la metodología de diseño de 
+bases de datos relacionales se ha consolidado a lo largo del tiempo, gracias a la utilización 
+de las propiedades de generalidad, que permite el diseño del modelo independiente de la 
+plataforma de hardware o software que se utilice, a la calidad del producto con precisión, 
+completitud y eficacia, y a su facilidad de uso.
+Esta metodología consta de las siguientes etapas, que podremos visualizar en el ciclo de 
+desarrollo clásico de bases de datos a través del siguiente esquema:
+A continuación, un breve repaso de cada una de las etapas:
+ Diseño conceptual:
+o Objetivo: definir las entidades y las relaciones entre ellos de forma abstracta, sin 
+centrarse en ningún modelo lógico en especial. 
+o Herramienta: modelo conceptual de datos. Se usa alguna variante del modelo 
+entidad-relación para las bases de datos relacionales. 
+o Resultado: esquema conceptual de la base de datos. Utilizamos Modelos Entidad 
+Relación (MER).
+
+PAGINA 7
+7
+ Diseño lógico:
+o Objetivo: definir el esquema de la base de datos según el modelo que implementa 
+el sistema de administración de la base de datos en que se va a trabajar. Nosotros 
+lo haremos en Oracle Cloud. 
+o Herramienta: modelo lógico de datos. Se usa el modelo lógico que implemente el 
+sistema de gestión de bases de datos, pero es independiente de los aspectos 
+físicos. Se usan técnicas formales como la normalización para verificar la calidad 
+del esquema lógico. 
+o Resultado: esquema lógico de la base de datos. El Modelo Lógico utilizado para 
+SGBD Relacionales es el Modelo Relacional (MR). 
+ Diseño físico: 
+o Objetivo: definir el esquema físico de la base de datos de forma que se den todas 
+las instrucciones para que un DBA pueda implementar la base de datos sin 
+ninguna ambigüedad. Se considera el rendimiento como un aspecto que no se ha 
+tratado en las etapas anteriores. 
+o Herramienta: modelo físico de datos. Se consideran todos los detalles de la 
+implementación física: organización de archivos e índices para el SGBD 
+considerado. 
+o Resultado: esquema físico de la base de datos.
+Ya que hemos explicado a grandes rasgos estas tres etapas, a continuación, estudiaremos 
+los modelos relacionales. 
+PAGINA 8
+8
+Modelo Relacional 
+Es un conjunto de una o más tablas estructuradas en registros (líneas) y campos 
+(columnas), que se unen entre sí por un campo en común. Al campo que une dos tablas se 
+le denomina ID, identificador o clave. A esta manera de construir bases de datos se le 
+denomina modelo relacional. 
+Las bases de datos relacionales pasan por un proceso al que se le conoce como 
+normalización de una base de datos, el cual es entendido como el proceso necesario para 
+que una base de datos sea utilizada de manera óptima.
+Una base de datos se compone de varias tablas y relaciones. Es importante que consideres 
+que no pueden existir dos tablas con el mismo nombre. Cada tabla es a su vez un 
+conjunto de campos (columnas) y registros (filas).
+La clave primaria es la clave principal de un registro dentro de una tabla.
+La relación entre una tabla padre y tabla hijo es por medio de las claves primarias y claves 
+foráneas o ajenas. Las claves ajenas se colocan en la tabla hija, contienen el mismo valor 
+que la clave primaria del registro padre.
+PAGINA 9
+9
+Figura 1
+Diagrama relacional para representar el modelo lógico
+Nota. Car, D. (2020). Modelo Relacional. Scribd. 
+https://es.scribd.com/presentation/484839676/Modelo-Relacional
+Terminología de los Modelos Relacionales
+Cuando nos referimos a los modelos relacionales, es necesario que comprendas los 
+siguientes términos:
+ Relación: Corresponde con la idea general de tabla.
+ Tupla: Corresponde con una fila.
+ Atributo: Corresponde con una columna.
+ Cardinalidad: Número de tuplas (m).
+ Grado: Número de atributos (n).
+ Dominio: Colección de valores de los cuales el atributo obtiene su atributo.
+ Clave Primaria: Identificador único de una tupla.
+
+PAGINA 10
+10
+Figura 2
+Terminología de modelos relacionales
+Nota. Términos más importantes del Modelo Relacional. Araneda, P. (2018). Capítulo 7: El 
+Modelo Relacional. https://bookdown.org/paranedagarcia/database/el-modelo-relacional.html
+Es importante definir las claves, ya que en una relación no hay tuplas repetidas, éstas se 
+pueden distinguir unas de otras, es decir, se pueden identificar de modo único. La forma de 
+identificarlas es mediante los valores de sus atributos.
+ Clave candidata: conjunto de atributos que identifican en forma única cada tupla de 
+la relación. Es decir, columnas cuyos valores no se repiten para esa tabla. 
+ Clave primaria: clave candidata que se escoge como identificador de las tuplas. Se 
+elige como primaria la candidata que identifique mejor a cada tupla en el contexto de 
+la base de datos. Por ejemplo, un atributo con el RUT sería clave candidata de una 
+tabla de clientes, aunque si en esa relación existe un atributo de código de cliente, 
+este sería mejor candidato para clave principal, porque es mejor identificador para ese 
+contexto. 
+ Clave alternativa: cualquier clave candidata que no sea primaria y que también 
+puede identificar de manera única una tupla. Al momento de crear la relación como 
+tabla en la Base de Datos se debe definir una constraints de tipo UNIQUE. 
+ Clave externa, ajena o foránea: atributo cuyos valores coinciden con una clave 
+candidata (normalmente primaria) de otra tabla. 
+PAGINA 11
+11
+Una restricción es una condición que deben cumplir los datos de la base de datos. Las 
+restricciones propias de las bases de datos relacionales son:
+ No puede haber dos tuplas iguales.
+ El orden de las tuplas no es significativo.
+ El orden de los atributos no es significativo.
+ Cada atributo sólo puede tomar un valor en el dominio en el que está inscrito.
+Las restricciones incorporadas por los usuarios son:
+ Clave primaria (PRIMARY KEY o PK): hace que los atributos marcados como clave 
+primaria no puedan tener valores repetidos. Además, obliga a que esos atributos 
+deben tener un valor. Si la clave primaria la forman varios atributos, ninguno de ellos 
+podrá estar vacío. 
+ Unicidad (UNIQUE): impide que los valores de los atributos marcados de esta forma 
+puedan repetirse. Esta restricción debe indicarse en todas las claves alternativas.
+ Obligatoriedad (NOT NULL): obliga que el atributo marcado de esta forma debe 
+tener un valor, es decir impide que pueda contener el valor nulo (null). 
+ Integridad referencial (FOREIGN KEY o FK): sirve para indicar una clave externa ó 
+foránea. Cuando una clave se marca con integridad referencial no se podrán 
+introducir valores que no estén incluidos en los atributos relacionados con esa clave 
+de la relación “padre”. Esto último causa problemas en las operaciones de borrado y 
+modificación de registros, ya que si se ejecutan esas operaciones sobre la tabla 
+principal quedarán filas en la tabla secundaria con la clave externa sin integridad.
+PAGINA 12
+12
+Clave Primaria
+Una clave primaria es un campo que identifica un solo registro (fila) en una tabla.
+En el siguiente ejemplo, la tabla PERSONA tiene un campo run que es la clave primaria. 
+Figura 3
+Estructura de la tabla PERSONA
+Los campos dv (digito verificador), nombre, 
+apellido y dirección pueden tener registros 
+duplicados, por ejemplo, en el caso de un padre e 
+hijo que vivan en la misma casa y que se llamen 
+igual. Sin embargo, el número del run NO puede 
+ser duplicado.
+Nota. En la figura se muestra la estructura de la tabla PERSONA. Oracle. (s.f.). Oracle Data 
+Modeler [Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+La tabla solo puede tener una clave primaria. Todos los campos pueden ser clave primaria. 
+Sus valores no pueden repetirse ni ser nulos. Al definir un campo como clave primaria, 
+automáticamente Oracle lo convierte a "not null".
+En ocasiones una clave primaria debe componerse por más de un campo. Se conocen como 
+claves primarias compuestas y las que tienen solo un campo se conocen como claves 
+primarias simples.
+En el ejemplo, la tabla ARRIENDO tiene un campo numero_departamento que es la clave 
+primaria. Consideremos el departamento 103 que fue arrendado en enero 2020. Si ese 
+departamento vuelve a arrendarse en marzo 2023 generaría un error de clave primaria 
+duplicada ya que el numero 103 se estaría repitiendo. 
+
+PAGINA 13
+13
+Figura 4
+Estructura de la tabla ARRIENDO
+Nota. En la figura se muestra la estructura de la tabla ARRIENDO. Oracle. (s.f.). Oracle Data 
+Modeler [Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+Para solucionar esa situación, se une el campo fecha_inicio_arriendo a la clave primaria 
+haciendo así, único el registro.
+103 – enero 2020 / 103 – marzo 2023
+Clave Foránea
+Un campo que no es clave primaria en una tabla y que además sirve para enlazar sus 
+valores con otra tabla en la cual es clave primaria. Estos campos se denominan clave 
+foránea, externa o ajena.
+Las claves foráneas y las claves primarias deben ser del mismo tipo para poder enlazarse. 
+Si modificamos una, debemos modificar la otra para que los valores se correspondan.
+Debemos tener cuidado con las claves foráneas. Si modificamos el tipo, longitud o atributos 
+de una clave foránea, ésta puede quedar inhabilitada para hacer enlaces. 
+PAGINA 14
+14
+Figura 5
+Relación entre las tablas CLIENTE y ARRIENDO
+Nota. En la figura se muestra la relación entre las tablas CLIENTE y ARRIENDO. Oracle. 
+(s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Veamos un ejemplo para comprender mejor la relación:
+En la siguiente imagen, la relación EMPLEADO (RUT, nombre, apellido, teléfono, RUT_jefe, 
+edificioAREA, numeroAREA), tiene una clave foránea formada por los atributos edificioAREA 
+y numeroAREA que se refiere a la clave primaria de la relación AREA (edificio, número, 
+superficie). Esta clave foránea indica, para cada empleado, el área donde trabaja. 
+Además, el atributo RUT_jefe es otra clave foránea que referencia la clave primaria de la 
+misma relación EMPLEADO, e indica, para cada empleado, quién es su jefe, jefe que 
+también es un empleado de la organización.
+
+PAGINA 15
+15
+EMPLEADO (RUT, nombre, apellido, teléfono, RUT_jefe, edificioAREA, numeroAREA), la 
+clave foránea {edificioAREA, numeroAREA} referencia la relación AREA (edificio, numero, 
+superficie). 
+De este modo, se cumple que todos los valores que no son nulos de los atributos 
+‘edificioAREA’ y ‘numeroAREA’ son valores que existen para los atributos edificio y numero 
+de AREA, tal y como se puede ver a continuación: 
+Tabla 1
+Relación EMPLEADO
+RUT nombre apellido telefono RUT_jefe edificioARE
+A numeroAREA
+20.444.255 Juan Pérez Null Null Centro 111
+16.567.711 Maria Cárcamo Null 13.444.255 Centro 111
+12.312.312 Pedro Piedra 56991348754 13.444.255 Centro 111
+34.534.534 Laura Ingals 56986402237 13.444.255 Centro 111
+PAGINA 16
+16
+Tabla 2
+Relación AREA
+edificio numero superficie
+Centro 111 10
+Norte 112 20
+Sur 114 10
+Este 211 15
+Supongamos que se requiere ingresar un empleado con los valores <55.555.555, María, 
+Casagrande, NULL, NULL, Centro, 400>. Como no hay área con los valores Centro y 400 
+para EDIFICIO y NUMERO, la tupla de este empleado hace una referencia incorrecta, indica 
+un área para el empleado que, de hecho, no existe. 
+Es preciso señalar que en la relación EMPLEADO hay otra clave foránea, {RUT_jefe}, que 
+referencia la misma relación EMPLEADO, y entonces se cumple que todos los valores que 
+no son nulos del atributo RUT_jefe son valores que existen para el atributo RUT de la misma 
+relación EMPLEADO.
+PAGINA 17
+17
+De la noción que hemos dado de clave foránea, se pueden extraer tres consecuencias: 
+1. Si una clave foránea (FK) referencia una clave primaria (PK) el número de atributos 
+de FK y de PK debe coincidir. En el ejemplo anterior, tanto la FK {edificioarea, 
+numeroarea} como la PK que referencia {edificio, numero} tienen dos atributos. Si no 
+sucediese así, no sería posible que los valores de FK existieran en PK.
+2. Por el mismo motivo, se puede establecer una correspondencia, una biyección, entre 
+los atributos de la clave foránea y los atributos de la clave primaria que referencia. 
+3. Así también, a ‘edificioarea’ le corresponde el atributo edificio, y a ‘numeroarea’ le 
+corresponde el atributo ‘numero’. 
+4. También se deduce de la noción de clave foránea que los dominios de sus atributos 
+deben coincidir con los dominios de los atributos correspondientes a la clave primaria 
+que referencia. Esta coincidencia de dominios hace que sea posible que los valores 
+de la clave foránea coincidan con valores de la clave primaria referenciada. 
+Links de Interés
+Como ya conoces el modelo relacional, puedes visitar el siguiente enlace para repasar sobre 
+sus conceptos, características, entre otros:
+https://bookdown.org/paranedagarcia/database/el-modelo-relacional.html
+Veamos entonces la forma de traducir cada uno de los elementos que aparecen en el 
+modelo E-R a un modelo relacional.
+PAGINA 18
+18
+Cómo se transforman las entidades
+La transformación del modelo conceptual al modelo lógico implica trasladar la representación 
+abstracta de los datos, descrita en términos de entidades, atributos y relaciones (modelo 
+entidad-relación o ER), a una estructura que pueda ser implementada en un sistema de 
+gestión de bases de datos relacional (RDBMS). Este proceso tiene como objetivo definir 
+cómo se organizarán y almacenarán los datos en tablas, respetando las restricciones de 
+integridad y asegurando que el diseño sea funcional y claro.
+Entidades fuertes
+ Toda Entidad del Modelo E/R se transforma en Relación o Tabla en el Modelo 
+Relacional.
+ Los atributos de las entidades del Modelo E/R se transforman en atributos o 
+columnas de la Relación en el Modelo Relacional. 
+ Los atributos Identificadores Únicos de las Entidades del Modelo E/R se 
+transforman en la Clave Primaria (PK) de la Relación del Modelo Relacional.
+ Por lo general el formato del nombre de la clave primaria es PK_nombretabla. 
+La entidad EMPLEADO del Modelo E/R se transforma en la Relación EMPLEADO en el 
+Modelo Relacional. El atributo identificador único de la entidad se transforma en la 
+Clave Primaria de la Relación (marcada con una P en el Modelo Relacional gráfico).
+Figura 6
+Entidad EMPLEADO
+Nota. Paso de la entidad EMPLEADO a la tabla EMPLEADO. Oracle. (s.f.). Oracle Data 
+Modeler. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 19
+19
+Como podemos observar, se vislumbran los tipos de datos, y la definición formal de la clave 
+primaria.
+Relaciones de 1:N
+La Relación del lado muchos (tabla relacionada) incluye como clave externa o foránea 
+(FK) las columnas que forman la clave primaria de la Relación del lado uno (relación 
+principal). A esta clave foránea se le debe asignar un nombre.
+Por lo general el formato del nombre de la clave foránea es 
+FK_tablarelacionada_tablaprincipal.
+En el Modelo Relacional, la punta de la flecha indica la tabla principal que contiene la(s) 
+columna(s) de clave primaria que con referenciadas por la tabla relacionada. La columna 
+clave foráneas además aparece marcada con una F.
+En el ejemplo, la columna codigo de la relación DEPARTAMENTO es incluida como 
+columna de la Relación EMPLEADO y además es Clave Foránea.
+Figura 7
+Relación entre entidad DEPARTAMENTO y EMPLEADO
+Nota. Ejemplo de Transformación de Relaciones 1:N. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 20
+20
+En el modelo lógico si se visualiza la clave foránea en la ahora tabla EMPLEADO.
+Relaciones N:M
+Para las relaciones Muchos a Muchos del modelo E/R que no pudieron ser eliminadas se 
+debe generar una Relación Intermedia en el Modelo Relacional a la cual se debe asignar un 
+nombre adecuado.
+La Relación de intersección o intermedia contiene dos claves externas (claves foráneas), 
+cada una referencia a la clave primaria de las tablas originales.  Ambas claves externas 
+(foráneas) además componen la clave primaria de la Relación intermedia a la cual se le 
+debe asignar un nombre adecuado. 
+En el ejemplo, se crea la Relación intermedia ASIGNATURA_DICTA con las columnas de 
+claves primarias de las Relaciones ASIGNATURA y PROFESOR (ambas columnas son PK y 
+FK).
+Figura 8
+Relación entre entidad ASIGNATURA y PROFESOR
+Nota. Ejemplo de Transformación de Relaciones N:M. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 21
+21
+Relaciones 1:1
+Las relaciones uno a uno en el MER son poco comunes. En muchos casos puede implicar 
+que las dos entidades son en realidad una sola y se deben unir.
+Si se debe mantener la relación 1:1, se utiliza la o las columnas que conforman la clave 
+primaria de la otra como clave foránea en una de las relaciones del Modelo Relacional.
+En el caso de que una entidad participe opcionalmente en la relación, entonces es el 
+identificador de esta entidad el que se utiliza como clave foránea en la Relación que 
+representa a la otra entidad.
+En el siguiente ejemplo, la relación del EMPLEADO con su CONYUGE es opcional, por lo 
+tanto, al transformar a modelo relacional la clave primaria de EMPLEADO, se convierte en 
+una columna más de CONYUGE y además es clave foránea.
+Figura 9
+Relación entre entidad EMPLEADO y CONYUGUE
+Nota. Ejemplo de Transformación de Relación 1:1. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 22
+22
+Relación Recursiva
+Las relaciones recursivas se tratan de la misma forma que las otras, solo que el atributo 
+identificador único puede figurar dos veces en una Relación como resultado de la 
+transformación y además es clave foránea. Por ello, se le debe asignar otro nombre a esa 
+columna. 
+Figura 10
+Entidad EMPLEADO
+Nota. Ejemplo de Relación Recursiva (MER). Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/ 
+
+PAGINA 23
+23
+En el ejemplo el atributo rut se transformará en otra columna de la Relación EMPLEADO en 
+el Modelo Relacional y además será clave foránea. Por lo tanto, se le asigna el nombre de 
+numrut_jefe.
+Figura 11
+Tabla EMPLEADO
+Nota. Ejemplo de Transformación de Relación Recursiva. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Relación de Exclusividad
+Los arcos representan una columna de clave foránea en la Relación principal. El Diseño 
+de Arco explícito crea una columna clave foránea para cada relación incluida en el arco.
+En el ejemplo, la columna codigo de la Relación EMPRESA y la columna numrut de la 
+Relación PERSONA se transforman en columnas de claves foráneas de la Relación 
+CONTRATO.
+
+PAGINA 24
+24
+Figura 12
+Entidades CONTRATO_ARRIENDO, EMPRESA y PERSONA
+Nota. Ejemplo de Transformación de Relación de Exclusividad. Oracle. (s.f.). Oracle Data 
+Modeler [Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+PAGINA 25
+25
+Jerarquías / Subtipo en una Relación
+Consiste en diseñar una tabla para el supertipo con toda la información de los subtipos. En 
+otras palabras, la tabla resultante contiene las instancias de todos los subtipos. Es apropiado 
+cuando los subtipos tienen pocos atributos y la consulta de los datos suele incluir datos de 
+distintos subtipos. 
+Los pasos para este diseño son:
+ Crear una Relación o tabla para el Supertipo.
+ Crear una columna “tipo” para identificar a cuál subtipo pertenece la fila o tupla.
+ Crear una columna para cada uno de los atributos del supertipo.
+ Crear una columna para cada uno de los atributos de los subtipos.
+ Crear columnas claves foráneas para cada una de las relaciones del supertipo.
+ Crear columnas claves foráneas para cada una de las relaciones de los subtipos.
+En el ejemplo, se crea la Relación VEHICULO con los atributos del supertipo y subtipos. 
+Además, se crea la columna tipo_vehiculo para poder saber si la información que se 
+almacenará será de un camión o remolque.
+Figura 13
+Entidades VEHICULO, CAMION y REMOLQUE
+Nota. Ejemplo de Transformación de Jerarquías en una Relación. Oracle. (s.f.). Oracle Data 
+Modeler [Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+PAGINA 26
+26
+Jerarquías / Subtipo en Relaciones Separadas
+Consiste en convertir los subtipos en Relaciones diferentes, una para cada subtipo. Cada 
+tabla tendrá instancias solo de ese subtipo. Se usa este diseño cuando los subtipos tienen 
+muchos atributos y relaciones específicas.
+Los pasos para este diseño son:
+ Crear una Relación o tabla para cada subtipo.
+ En cada tabla de un subtipo crear las columnas para los atributos del supertipo.
+ En cada tabla de un subtipo crear columnas claves foráneas para cada relación del 
+subtipo.
+ En cada tabla de un subtipo crear columnas claves foráneas para cada relación del 
+supertipo.
+En el ejemplo, se crea las Relaciones CAMION y REMOLQUE cada una con sus atributos y 
+además con los atributos del supertipo incluyendo su clave primaria.
+Figura 14
+Entidades VEHICULO, CAMION y REMOLQUE
+Nota. Ejemplo de Transformación de Jerarquías en Relaciones Separadas. Oracle. (s.f.). 
+Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 27
+27
+Entidades débiles
+Son definidas por su dependencia de una entidad fuerte para su identificación, es decir, toda 
+entidad débil incorpora una relación implícita con una entidad fuerte. 
+Se debe incorporar la clave primaria de la relación que representa a la entidad fuerte como 
+clave foránea en la relación que representa la entidad débil. Normalmente esa clave foránea 
+forma parte de la clave principal de la relación que representa a la entidad débil:
+Figura 15
+Entidades VENDEDOR y VENTA
+Nota. Ejemplo de entidad débil. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+En el siguiente ejemplo, la columna cod_vendedor, que es la clave primaria de la relación 
+VENDEDOR, se transforma en una columna clave foránea de la relación VENTA. Además, 
+junto con la columna fecha_hora_venta forman la clave primaria para identificar en forma 
+única una venta de un vendedor en particular:
+Figura 16
+Tabla VENDEDOR y VENTA
+
+PAGINA 28
+28
+Nota. Ejemplo de transformación de entidades débiles. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Tipos de entidades, tipos de relaciones y claves
+Para cada tipo de entidad se crea una relación con el mismo nombre y conjunto de atributos. 
+Por ejemplo, en el caso de la BD de matrícula de alumnos en DUOC UC resumidas, los tipos 
+de entidades dan lugar a las siguientes relaciones: 
+ ALUMNO(rut, ApellidoPaterno, ApellidoMaterno, nombres, direccion, celular, idComuna) 
+ ASIGNATURA(Codigo, Título, numCreditos) 
+ PROFESOR(rut, ApellidoPaterno, ApellidoMaterno, nombres, direccion, Telefono) 
+ SALA(Edificio, Número) 
+En cuanto a las relaciones, para cada tipo de relación “R” se crea una relación que tiene 
+como atributos: 
+ Los atributos de la clave primaria de cada tipo de entidad que participa en la relación. 
+ Los atributos de la propia relación. 
+En ocasiones hay que renombrar atributos para evitar tener varios con el mismo nombre. 
+Como ejemplo, en el caso de la BD los tipos de relación dan lugar a las siguientes 
+relaciones: 
+ MATRICULA(rutmatricula, Código, Nota) 
+ SUPERVISOR(rutSupervisor, rutmatricula) 
+ IMPARTE(rutsupervisor, Código, Edificio, NumSala) 
+Si nos fijamos en la relación SUPERVISOR, se han renombrado los atributos rutSupervisor 
+para indicar el papel de cada uno de ellos en la relación y además evitar que se use el 
+mismo nombre para más de un atributo y así, no tener ningún tipo de inconveniente en un 
+futuro cercano cuando queramos consultar los datos que ahí se guardaron.
+PAGINA 29
+29
+Sobre las claves, hay dos casos: 
+1. La relación proviene de un tipo de entidad en el esquema E-R. La clave es la misma 
+que la del tipo de entidad. Por ejemplo: 
+ALUMNO(rut, nombreCompleto, direccion, idComuna) 
+2. La relación proviene de un tipo de relación en el esquema E-R. Si la relación R es un 
+tipo de relación entre varios tipos de entidades, se va a construir una relación bajo el 
+modelo E-R a partir de R con los atributos que forman clave primaria en todas las 
+entidades participantes, más los propios de R. De ellos formarán clave primaria las 
+claves primarias de cada una de las entidades participantes. Por ejemplo: 
+MATRICULA(rut, Codigomatricula, rutAlumno) 
+PAGINA 30
+30
+Restricciones de integridad
+Hemos visto cómo se traducen las claves de los tipos 
+de entidades y cómo aparecen claves en la 
+traducción de los tipos de relaciones. Sin embargo, no 
+es el único tipo de restricciones de integridad que 
+aparece automáticamente al traducir un esquema E-R 
+en otro relacional. Hay dos: restricciones de 
+integridad referencial y las restricciones de 
+participación total. 
+Las claves y las restricciones de integridad referencial 
+son características que se utilizan directamente en 
+casi la totalidad de los SGBD relacionales. Estos 
+sistemas se ocupan automáticamente de que no se violen estas restricciones. Sin embargo, 
+no ocurre lo mismo con las de participación total y otras restricciones. Profundicemos en 
+estas restricciones: 
+Restricciones de integridad referencial 
+Al traducir un tipo de relación R, en cualquier instancia de R se debe cumplir que los valores 
+de los atributos que hereda de una entidad deben aparecer previamente en el conjunto de 
+entidades. Por ejemplo, si tenemos dos entidades, una PADRE y otra HIJO, donde 
+identificamos al PADRE con el campo rutPadre y al HIJO con el campo rutHijo, está claro 
+que en la relación no puede aparecer un valor del rut de un padre o de un hijo que no estén 
+previamente en el conjunto de entidades PADRE e HIJO. Es decir, a HIJO no podemos 
+asociarle un padre que no existe en la tabla PADRE(rutPadre), lo mismo a un padre, no se le 
+puede asociar un hijo que no esté en la entidad HIJO (idHijo). 
+Es necesario, por tanto, imponer una restricción de integridad referencial entre los atributos 
+clave heredados de una entidad con los clave de esa entidad. 
+
+PAGINA 31
+31
+En este ejemplo, se podría expresar: 
+PADRE.rutPadre ⊆ HIJO.rutHijo 
+HIJO.rutHijo ⊆ PADRE.rutPadre 
+Restricciones de participación total 
+Cuando cada valor de un tipo de entidad debe aparecer en un tipo de relación, como 
+Alumnos en Matrícula, significa que, además de la restricción de integridad referencial 
+comentada en el apartado anterior, se debe cumplir que todo valor de rut en ALUMNO debe 
+aparecer en el atributo rut de MATRICULA. 
+Esto se puede expresar: ALUMNO.rut ⊆ MATRICULA.rut Por otra parte, dado que la 
+restricción de integridad referencial sobre esta tabla arroja: MATRICULA.rut ⊆ ALUMNO.rut 
+Llegamos a la conclusión de que: MATRICULA.rut = ALUMNO.rut. Es decir, si aparece un 
+valor de rut en MATRICULA, también debe aparecer en el atributo rut de ALUMNO, y 
+viceversa. 
+PAGINA 32
+32
+Diseño Físico 
+El objetivo del diseño 
+físico es la generación del 
+esquema físico de la base 
+de datos en el modelo de 
+datos que implementa el 
+Sistema de Gestión de 
+Base de Datos (SGBD).  
+La transformación de un modelo lógico a un modelo físico en bases de datos implica 
+convertir las estructuras definidas en el modelo lógico en estructuras reales que serán 
+implementadas en un motor de bases de datos como Oracle, SQL Server, MySQL, etc. Esto 
+incluye la definición de las tablas, columnas, tipos de datos, restricciones de integridad y 
+otros objetos propios de cada de base de datos como índices, vistas o procedimientos 
+almacenados. Es por esto que, un script de Oracle puede no ejecutar correctamente en un 
+motor SQL Server, porque cada SGBD en su modelo físico tiene sus propias definiciones. 
+En esta asignatura usarás Oracle Cloud como motor de base de datos relacional. 
+Importante
+Tu docente te enviará una invitación para que crees tu cuenta en Oracle Cloud con tus 
+credenciales Duoc; deberás tenerla iniciada para las semanas posteriores.
+Busca en SPAM o correos no deseados el correo porque tiene fecha de vencimiento 
+la invitación.
+
+PAGINA 33
+33
+Cómo generar el Script en Oracle SQL Developer Data Modeler  
+A continuación, te mostraremos el paso a paso para realizar este proceso y puedas 
+transformar tu proyecto desde el modelo lógico al modelo físico:
+ Paso 1: Generar el Script en Oracle SQL Developer Data Modeler 
+Este script contiene las instrucciones para crear las tablas, índices, relaciones, etc., según tu 
+diseño. Entonces, cuando estás en Oracle SQL Developer Data Modeler, debes ir hacia el 
+menú superior - exportar - archivo DDL:
+Figura 17
+Generar el Script en Data Modeler
+Nota. La imagen muestra cómo generar el Script en Oracle SQL Developer Data Modeler. 
+Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/ 
+PAGINA 34
+34
+Va a aparecer un cuadro de diálogo como el siguiente: 
+Figura 18
+Editor de Archivo DDL
+Nota. Cuadro de diálogo del editor de archivo DDL. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/ 
+ 
+Paso 2: Generar el Script 
+Para generar el script SQL debes seleccionar: 
+ Versión de motor de base de datos: puedes elegir desde la versión “Oracle Database 
+11g” hasta la última versión.  Te recomendamos usar la última versión. 
+ Modelo a generar: como puedes estar desarrollando más de un modelo en la 
+herramienta, debes elegir del listado el modelo relacional que deseas generar el script 
+SQL. 
+Una vez seleccionados los puntos anteriores, le indicamos “Generar”.  En el mismo cuadro 
+de diálogo aparecerá el Script SQL correspondiente al modelo físico para ser implementado 
+posteriormente en el motor de base de datos Oracle. 
+ 
+PAGINA 35
+35
+Figura 19
+Script generado
+Nota. Ejemplo de cómo generar un script en SQL Developer Data Modeler. Oracle. (s.f.). 
+Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/ 
+ 
+PAGINA 36
+36
+Cierre de la semana
+Durante esta semana, nos enfocamos en el 
+proceso de transformación de modelos 
+conceptuales a modelos lógicos, un paso 
+fundamental en el diseño de bases de datos 
+que permite implementar estructuras bien 
+definidas en sistemas relacionales. 
+Revisamos los conceptos básicos de los 
+modelos relacionales, clarificando las 
+diferentes terminologías entre claves primarias y foráneas, relaciones, cardinalidades, tuplas, 
+etc.
+Profundizamos en la transformación de modelos entidad relación a modelos relacionales, 
+abordando cómo convertir entidades en tablas, atributos en columnas, identificadores únicos 
+en claves primarias, relaciones en claves foráneas, cómo manejar la herencia mediante 
+estrategias como las tablas únicas, separadas o combinadas. También exploramos la 
+transformación de relaciones en sus distintas cardinalidades: 1:1, 1:N y N:M, explicando 
+cómo utilizar claves foráneas y tablas intermedias para garantizar la integridad referencial. 
+Además, estudiamos las reglas de exclusividad, que imponen restricciones en los datos, 
+garantizando que las relaciones excluyentes se implementen correctamente mediante claves 
+y restricciones lógicas. 
+Finalmente, vimos como transformar modelos lógicos a físicos generando el script con 
+Oracle SQL Developer Data Modeler, preparándonos a la próxima experiencia donde 
+implementarás bases de datos en Oracle Cloud.
+ 
+
+PAGINA 37
+37
+Referencias
+ Keepcoding. (2023). Generar el modelo relacional desde Data Modeler. Keepcoding. 
+https://keepcoding.io/blog/generar-el-modelo-relacional/
+ Oracle Help Center. (s.f.). Certificación - Tipos de dato soportados. Oracle. 
+https://docs.oracle.com/cloud/help/es/analytics-cloud/ACSDS/GUID-33F45B17-
+782F-4A56-9FA9-7163A3BD79B1.htm#ACSDS-GUID-33F45B17-782F-4A56-9FA9-
+7163A3BD79B1
+ Valle, C. (2022). Modelo Conceptual, Lógico y Físico de una base de datos. [Video] 
+Cristian Valle Ronceros. https://www.youtube.com/watch?v=Q-bdx0lX1bo
+Lecturas de la semana
+ Unidad 3: Los esquemas relacionales y su transformación – 3.2. Transformación de  
+los tipos de entidad y los atributos.
+Postigo, A. (2021). Base de datos. Ediciones Paraninfo S.A. https://webezproxy.duoc.cl/login?
+url=http://biblioteca.duoc.cl/bdigital/elibros/a49346-Bases_de_datos/135/ Páginas 123 a 158
+PAGINA 38
+38
+Apuntes
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+PAGINA 39
+Reservados todos los derechos Fundación Instituto Profesional Duoc UC. No se permite copiar, reproducir, 
+reeditar, descargar, publicar, emitir, difundir, de forma total o parcial la presente obra, ni su incorporación a un 
+sistema informático, ni su transmisión en cualquier forma o por cualquier medio (electrónico, mecánico, 
+fotocopia, grabación u otros) sin autorización previa y por escrito de Fundación Instituto Profesional Duoc UC 
+La infracción de dichos derechos puede constituir un delito contra la propiedad intelectual. 

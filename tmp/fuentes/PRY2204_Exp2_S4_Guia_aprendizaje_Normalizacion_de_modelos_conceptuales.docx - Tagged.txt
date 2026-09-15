@@ -1,0 +1,930 @@
+PAGINA 1
+G
+Guía de aprendizaje 
+Normalización de 
+modelos conceptuales
+Exp 2 – Semana 4
+Modelamiento de base de datos 
+Facilitador disciplinar: Rocío Contreras Águila
+Asesor par: Alejandra Gajardo
+Índice
+
+PAGINA 2
+2
+Introducción a la semana...........................................................................................................4
+Resultado de aprendizaje..........................................................................................................5
+Conceptos relevantes.................................................................................................................5
+Preguntas activadoras................................................................................................................6
+Actividad.....................................................................................................................................6
+Toma de requerimientos para modelar......................................................................................7
+Normalización de datos............................................................................................................11
+¿Qué es la normalización de datos?.............................................................................11
+Dependencias Funcionales...........................................................................................12
+Reducción de redundancia......................................................................................................18
+Primera Forma Normal (1FN)........................................................................................19
+Segunda Forma Normal (2FN)......................................................................................23
+Tercera Forma Normal (3FN)........................................................................................28
+Cuarta Forma Normal (4FN).........................................................................................31
+Quinta Forma Normal (5FN)..........................................................................................34
+Relaciones redundantes..........................................................................................................39
+Eliminando relaciones M:M...........................................................................................40
+Normalización desde vista de usuario.....................................................................................42
+Cierre de la semana.................................................................................................................48
+Lecturas de la semana.............................................................................................................49
+Apuntes....................................................................................................................................50 
+PAGINA 3
+3
+Introducción a la semana
+Te encuentras en la segunda experiencia 
+de aprendizaje: Construyendo un modelo 
+de datos normalizado.
+Hasta ahora, has revisado los conceptos 
+básicos de modelamiento de bases de 
+datos: identificaste entidades, reconociste 
+las relaciones, complejizaste los diagramas 
+modelos extendidos.
+Esta semana, aprenderás sobre la normalización de bases de datos y entenderás cómo la 
+normalización transforma un gran almacén de datos en un conjunto de estructuras de datos 
+más pequeñas y estables. Este proceso no solo simplifica y estabiliza las bases de datos, 
+sino que también las hace más fáciles de mantener debido a la forma en que los datos están 
+estructurados. A través de este enfoque, aprenderás a mejorar la eficiencia y la coherencia 
+de tus bases de datos, fundamentales para el manejo efectivo de la información en la era 
+digital.
+
+PAGINA 4
+4
+Resultado de aprendizaje
+El estudiante será capaz de:
+RA2. Aplica conceptos avanzados de modelamiento de datos en la construcción de modelo 
+de datos implementado en bases de datos relacionales.
+Indicador de logro:
+IL5. Aplica la normalización (1FN, 2FN, 3FN) en el modelo conceptual para eliminar la 
+redundancia en los datos asociados al problema planteado.
+Conceptos relevantes
+Base de datos Cardinalidad Redundancia
+Formas Normales Diagrama Modelamiento
+Dependencia Datos Atómico
+PAGINA 5
+5
+Preguntas activadoras
+ ¿Qué significa integridad referencial?
+ ¿Qué ventajas ofrece la normalización y cómo afecta al rendimiento y la consistencia 
+de una base de datos?
+ ¿Cómo se puede encontrar un equilibrio entre la normalización y el rendimiento de un 
+sistema?
+Actividad
+Descripción de la actividad 
+En esta cuarta semana, realizarás una actividad formativa en parejas con encargo llamada 
+"Modelando y Normalizando datos", donde deberás dar solución al caso de negocio 
+planteado, desarrollando un Modelo Entidad-Relación-Extendido (MER-E) normalizado (1FN, 
+2FN y 3FN) basado en un contexto de la vida real. En esta actividad, será necesario que 
+identifiques todas las entidades, así como las relaciones entre ellas, con sus identificadores 
+únicos, atributos obligatorios y opcionales, los supertipos y subtipos de ser necesarios. 
+Además, deberás analizar y determinar los tipos de datos más adecuados para cada 
+atributo, así como su dominio. 
+PAGINA 6
+6
+Toma de requerimientos para modelar 
+Previo a que comencemos a entender qué es la normalización, es necesario saber a qué 
+nos referimos por toma de requerimientos, también conocida como levantamiento o 
+recolección de requerimientos. Se trata de un conjunto de actividades dirigidas a identificar y 
+entender las necesidades, expectativas y limitaciones de los usuarios y otras partes 
+interesadas, con el fin de definir con precisión lo que debe ser realizado por el sistema o 
+proyecto.
+Existen varias instancias de toma de requerimientos que nos ayudarán a saber cómo 
+deberíamos estructurar los datos, qué debemos mantener en consideración para saber qué 
+modelar y para almacenar lo que se requiere mantener en la base de datos, pero nos 
+centraremos en dos de las más conocidas: 
+1. Toma de requerimientos de frase nominal: en este caso, se conversa con la 
+contraparte para entender qué es lo que requiere. En esta opción, utilizamos 
+diferentes metodologías de tomas de requerimientos y obtenemos lo que necesitamos 
+para modelar. 
+
+PAGINA 7
+7
+2. Uso de la visualización de datos: en el texto descriptivo de cada caso de uso se 
+mencionan características de las entidades objetos del dominio. 
+Ejemplo: se lee el párrafo y luego se revisa qué entidades y atributos se desprenden de él:
+“El cajero solicitará datos como 
+código de cliente y tipo de venta 
+(opciones de pago) y utilizará el lector 
+de código de barra para registrar 
+cada artículo vendido; el sistema 
+desplegará la información básica del 
+artículo como nombre, ítem, cantidad 
+vendida y valor del ítem por cada 
+detalle de venta. Cuando el cajero le 
+indique al sistema el fin de la venta, el 
+sistema calculará y desplegará el total”.
+Como puedes ver, aquí se definen los siguientes atributos:
+ Para el cliente (código), 
+ Para la venta (tipo de venta, total venta),
+ Para el artículo (código, nombre), y
+ Para el detalle de venta (ítem, cantidad, valor del ítem).
+Para poder analizar y obtener los requerimientos de usuario a través de las vistas 
+entregadas por el cliente, debes seguir los siguientes pasos:
+
+PAGINA 8
+8
+Mira el siguiente documento:
+Figura 1
+Factura
+Nota. Ejemplo de una factura. Araya&Cía. Abogados (2010). Formas e importancia de 
+reclamar el contenido de una factura. Araya. https://www.araya.cl/newsletter/15.html
+Si te das cuenta, utilizando la vista de usuario entregada FACTURA, puedes identificar las 
+siguientes entidades con sus correspondientes atributos:
+CLIENTE
+…………………….
+ nombre_cliente
+ apellidos_cliente
+ rut_cliente
+ fono_cliente
+ domicilio_cliente
+PRODUCTO
+…………………….
+ id_producto
+ nombre_producto
+ precio_producto
+ importe_producto
+FACTURA
+…………………….
+ num_factura
+ fecha_emision
+ total_bruto
+ porc_descuento
+DETALLE_FACTURA
+…………………….
+ num_factura
+ cantidad
+ id_producto
+ concepto
+ precio
+ importe
+
+PAGINA 9
+9
+Una vez realizado el modelo conceptual, como parte del proceso de toma de requerimientos, 
+construiremos un modelo relacional, que está basado en que todos los datos están 
+almacenados en tablas (entidades/relaciones) y cada una de estas es un conjunto de datos, 
+por tanto, una base de datos es un conjunto de relaciones. La agrupación se origina en la 
+tabla: Relación (tabla) → fila (tupla) → campo (atributo). 
+Figura 2
+Modelo relacional
+Nota. Ejemplo base del modelo relacional. DigitalGuide IONOS (2019). Bases de datos 
+relacionales: el modelo de datos en detalle. Ionos.mx: 
+https://www.ionos.mx/digitalguide/hosting/cuestiones-tecnicas/bases-de-datos-relacionales/
+Tras entender el proceso de toma de requerimientos, es esencial dar el siguiente paso hacia 
+la normalización de datos en el modelado de nuestras bases de datos.
+PAGINA 10
+10
+Normalización de datos
+¿Qué es la normalización de datos?
+Es un proceso crucial que se aplica después de identificar las entidades, atributos y 
+relaciones durante la fase de toma de requerimientos.
+Por ejemplo, en el caso del análisis de la factura que hemos revisado, identificamos 
+entidades como CLIENTE, PRODUCTO y FACTURA, con sus respectivos atributos. La 
+normalización nos permite organizar estos datos de manera eficiente, minimizando la 
+redundancia y optimizando el almacenamiento. En el contexto de la normalización, cada 
+entidad y sus atributos deben examinarse para estructurar la base de datos de forma que 
+refleje las relaciones entre los datos, mientras se mantiene la integridad y se reduce la 
+duplicidad.
+
+PAGINA 11
+11
+Este proceso implica aplicar una serie de reglas o 'formas normales' para asegurar que la 
+base de datos esté libre de ciertos tipos de anomalías y redundancias. Por ejemplo, la 
+normalización puede implicar la separación de los datos en diferentes entidades 
+relacionadas, lo que facilita la actualización y el mantenimiento de la base de datos y 
+mejora el rendimiento de las consultas. En otras palabras, la normalización es un proceso 
+que consiste en designar y aplicar una serie de reglas a las relaciones obtenidas del 
+modelo entidad relación con el objetivo de minimizar la redundancia de datos y facilitando 
+su gestión posterior.
+Dependencias funcionales
+Aprendamos un poco acerca de las dependencias funcionales y como puede afectar en el 
+modelo de datos. Según la teoría, hay una dependencia funcional cuando cada atributo Y 
+está funcionalmente condicionado por un atributo X.
+¿Qué significa esto? En este caso, X puede influir en el valor de Y, entonces a X la vamos a 
+llamar determinante y a Y la llamaremos dependiente. En otras palabras, una dependencia 
+funcional cuenta de dos partes:
+
+PAGINA 12
+12
+Conozcamos más de cada concepto: 
+ Determinante: en una dependencia funcional, el determinante es cualquier atributo 
+que afecta el valor de otros atributos. Cuando el valor del determinante se modifica, 
+los valores de los atributos que dependen de él también cambian automáticamente.
+ Dependiente: en una dependencia funcional, la variable dependiente es el atributo cuyo 
+valor está influenciado por el determinante. Este atributo depende únicamente del valor 
+de la determinante.
+En la imagen anterior, X era la determinante de Y, veamos a continuación cómo se refleja en 
+un caso de la vida real: 
+Tabla 1
+CIUDADANO
+RUT Nombres Apellidos
+123 Juan Perez
+ 
+En este caso la entidad CIUDADANO está compuesta por los atributos (RUT, Nombres, 
+Apellidos) y los datos son una instancia de la entidad, donde tienen una dependencia 
+funcional bastante simple. Si pongo el número de RUT de Juan Pérez, me tiene que devolver 
+el nombre y apellido Juan Pérez. Con el RUT yo puedo obtener los nombres y apellidos, por 
+lo que el RUT es el determinante de nombres y apellidos.
+
+PAGINA 13
+13
+Las variables dependientes están siempre vinculadas al valor de la determinante; si este 
+último cambia, también lo hacen las dependientes. Aunque es fácil identificar una 
+dependencia funcional, es importante considerar ciertos aspectos para evitar errores al 
+seleccionar las dependencias:
+1. Determinante → Dependientes
+Todos los atributos tienen determinantes y dependientes. Pudiste ver en el ejemplo que 
+teníamos las siguientes dependencias:
+RUT à Nombres
+RUT à Apellidos
+Sin embargo, siguiendo con la regla de que todo atributo tiene determinante y dependiente, 
+falta la determinante de RUT. En casos cuando ningún atributo puede determinar el valor de 
+este, él se determina así mismo:
+RUT à RUT: con esto cumplimos la regla.
+2. Cada determinante solo puede estar asociada a un mismo valor en la dependiente
+ En este ejemplo:
+Tabla 2
+CIUDADANO
+RUT Nombres Apellidos
+123 Juan Perez
+ 
+Si el RUT de Juan Pérez estuviera asociado a dos personas distintas, no sería una 
+dependencia funcional:
+PAGINA 14
+14
+Tabla 3
+CIUDADANO con dependencia errónea
+RUT Nombres Apellidos
+123 Juan Perez
+123 María Lopez
+ 
+La variable dependiente siempre debe estar asociada a la misma determinante. Por ejemplo, 
+el RUT de Juan Pérez siempre debe estar vinculado exclusivamente a él. Para identificar las 
+dependencias funcionales, es necesario analizar cómo interactúa un atributo con los otros 
+atributos.
+Tomamos el nombre y tenemos que imaginar qué ocurriría si el determinante de RUT fuera 
+el nombre. Empezamos con el nombre; si este fuera la determinante de RUT, cada nombre 
+debería entregarme un solo RUT:
+Tabla 4
+Nombre como determinante de RUT
+Nombre RUT Apellidos
+Juan 123 Perez
+ 
+Entonces si escribo Juan, obtengo el RUT 123, pero si vuelvo a escribir Juan, obtengo el 
+RUT 9583 (que es el RUT de Juan López).
+Tabla 5
+CIUDADANO
+Nombre RUT Apellidos
+Juan 123 Perez
+PAGINA 15
+15
+Nombre RUT Apellidos
+Juan 9583 Lopez
+ 
+Por lo tanto, no cumplimos con la única regla que tenemos que cumplir para tener una 
+dependencia funcional.
+Importante
+Cada variable dependiente solo estará vinculada a una sola determinante.
+ 
+El nombre no puede definir al RUT de forma única; con apellido ocurriría lo mismo, así que 
+debemos buscar otra forma. Por eso RUT es la única que puede identificar las demás 
+columnas sin repetir valores, por ser única.
+En algunos casos, la determinante pueden ser varios atributos en vez de uno. Supongamos 
+que tenemos un restaurant por reserva, en el que debes apartar la fecha y la mesa antes de 
+ir:
+Tabla 6
+RESERVA
+Mesa Fecha Clientes
+1 01/05/24 Juan
+ 
+Mesa y Fecha son la determinante de Clientes, porque necesito de ambos atributos para 
+poder reservar.
+PAGINA 16
+16
+Además de tener dependencia funcional, ‘Mesa’ y ‘Fecha’ son identificadores únicos de la 
+entidad RESERVA. Con este tipo de dependencias de varios atributos, se debe tener mucho 
+cuidado al definir la determinante.
+Links de interés
+Finalmente, para que aprendas más sobre este proceso, te invitamos a visitar el siguiente 
+enlace, donde conocerás sobre las dependencias funcionales:
+https://informaticosinlimites.com/base-de-datos/dependencia-funcional/
+PAGINA 17
+17
+Reducción de redundancia
+Una de las principales metas de la normalización es eliminar la redundancia de datos y las 
+dependencias incoherentes.
+Datos redundantes: no solo consumen espacio de almacenamiento innecesariamente, sino 
+que también complican el mantenimiento de la base de datos. Por ejemplo, si la dirección de 
+un cliente necesita ser actualizada y esta información está duplicada en múltiples lugares, se 
+debe asegurar que el cambio se refleje de manera consistente en todas esas ubicaciones. 
+Mantener la información del cliente únicamente en la entidad 'Clientes' simplifica 
+enormemente este proceso.
+Dependencias incoherentes: se refieren a la asociación ilógica de datos en una base de 
+datos. Por ejemplo, si bien es lógico buscar la dirección de un cliente en la entidad 'Clientes', 
+no tiene sentido buscar allí el salario de un empleado. El salario depende directamente del 
+empleado y, por tanto, debería estar en la entidad 'Empleados'. Las dependencias 
+incoherentes pueden hacer que el acceso a los datos sea más complicado y confuso.
+Por este motivo es importante seguir reglas en la normalización de una base de datos. Cada 
+regla se llama "forma normal". Si se cumple la primera regla, se dice que la base de datos 
+está en "primera forma normal". Si se observan las tres primeras reglas, se considera que la 
+base de datos está en "tercera forma normal". Aunque son posibles otros niveles de 
+normalización, la tercera forma normal se considera el nivel más alto necesario para la 
+mayoría de las aplicaciones. 
+Las formas normales son las siguientes: 
+
+PAGINA 18
+18
+Conozcamos más en detalle cada una de ellas:
+Primera Forma Normal (1FN)
+Es la forma normal propia al esquema relacional, de uso obligatorio, cuyos principios son:
+ Todos los atributos clave están definidos.
+ No hay grupos repetidos en la entidad. Cada atributo contiene un solo valor, no un 
+conjunto de ellos.
+ Todos los atributos son dependientes del identificador único.
+ Todos los atributos son atómicos. Un atributo es atómico si los elementos del dominio 
+son simples e indivisibles.
+ No debe existir variación en el número de atributos.
+ Los atributos no clave deben identificarse por la clave, es decir, por la dependencia 
+funcional.
+ Debe existir una independencia del orden de los atributos; es decir, si los datos 
+cambian de orden no deben cambiar sus significados.
+Algunos ejemplos de entidades (o de vistas) que no satisfacen esta definición de Primera 
+Forma Normal son:
+ Entidades sin identificador único: puede contener datos duplicados, lo que va en 
+contra de las reglas de diseño de bases de datos.
+ Vista con orden específico: si una vista requiere un orden específico de datos, esto 
+contradice el principio de que los atributos en una base de datos relacional no tienen 
+un orden inherente.
+ Entidad con atributos nulos: tener atributos que pueden ser nulos puede violar la regla 
+de que cada atributo debe tener un valor único de su dominio. No obstante, hay 
+debate sobre esto; algunos autores aceptan atributos nulos si no son parte de la clave 
+candidata, siguiendo el modelo relacional original de Codd que admite nulos.
+
+PAGINA 19
+19
+Un ejemplo de esto sería la siguiente tabla, que muestra una violación del principio de la 
+Primera Forma Normal (1FN), puesto que hay un problema evidente con la estructura de los 
+datos: 
+Tabla 7
+Tabla con error en la estructura de los datos
+ALUMNO
+Rut Nombre Asignatura
+1-1 Juan
+Modelamiento de Bases de 
+Datos
+Ingeniería de Software
+2-4 María Modelamiento de Bases de 
+Datos
+2-5 Pedro Arquitectura
+Aquí, el problema principal es que hay dos asignaturas listadas en una sola fila para el 
+alumno con el RUT 1-1 (Juan). Esto viola la regla de que cada celda debe contener un solo 
+valor (atomicidad). Además, la falta de un identificador único para cada fila (debido a la fila 
+vacía bajo el RUT y el Nombre de Juan) va en contra del principio de unicidad de filas.
+Esto se puede corregir al dividir las asignaturas en filas separadas, manteniendo la 
+atomicidad y asegurando que cada fila sea única:
+PAGINA 20
+20
+Tabla 8
+Corrección en la estructura de los datos
+ALUMNO
+Rut Nombre Asignatura
+1-1 Juan Modelamiento de Bases de 
+Datos
+1-1 Juan Ingeniería de Software
+2-4 María Modelamiento de Bases de 
+Datos
+2-5 Pedro Arquitectura
+En esta estructura mejorada, cada fila representa una combinación única de RUT, Nombre y 
+Asignatura, cumpliendo con los requisitos de la Primera Forma Normal.
+Veamos otro ejemplo con una entidad ALUMNO:
+Figura 3
+Entidad ALUMNO sin 1FN
+Nota. Ejemplo con entidad ALUMNO. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 21
+21
+La entidad contiene las siguientes tuplas:
+Tabla 9
+Tuplas de la entidad ALUMNO sin 1FN
+Rut Nombre_alumno telefono
+1-1 Juan
+123123123
+092736523
+234523452
+2-3 María 091234523
+4-1 Pedro 098762345
+Como puedes observar, el atributo ‘teléfono’ no mantiene la regla de atomicidad, por lo que 
+corresponde en estos casos, o bien almacenar solo un número (lo que restringiría los datos 
+a almacenar), o crear una entidad con los teléfonos de los alumnos para respetar la regla.
+Figura 4
+Entidades ALUMNO y TELEFONO
+Nota. Ejemplo donde no se cumple la regla de atomicidad. Oracle. (s.f.). Oracle Data 
+Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 22
+22
+En general, depende del contexto cuándo se considera que un valor es atómico. Si no es 
+necesario separar el nombre de los apellidos, el nombre completo puede considerarse un 
+valor atómico. Con todo, en la práctica se recomienda subdividir los valores compuestos en 
+las unidades más pequeñas.
+Importante
+La Primera Forma Normal establece campos de valores atómicos y con ello facilita las 
+consultas a la base de datos. Los datos que forman parte de campos no atómicos no 
+pueden consultarse por separado.
+Segunda Forma Normal (2FN)
+Una entidad está en Segunda Forma Normal si y solo si:
+ Cumple con las reglas de 1FN.
+ Todos los atributos que no forman parte de la clave principal tienen dependencia 
+funcional completa de ella.
+Una entidad está en 2FN si está en 1FN y además se han eliminado las dependencias 
+parciales entre sus atributos. Una dependencia parcial se da cuando uno o más atributos 
+que no son atributo identificador (clave) depende sólo de parte del atributo clave.
+En una entidad en 2FN todo atributo debe depender completamente del Identificador Único 
+de la entidad a la que pertenece. Para validar que la entidad cumple con la 2FN, se debe 
+verificar que cada identificador único determine una sola ocurrencia para cada atributo.
+Se debe asegurar que un atributo NO dependa solo de una parte del Identificador Único de 
+la entidad. 
+PAGINA 23
+23
+Ahora bien…
+ ¿Qué es la clave principal? Es un conjunto de uno o más atributos que identifican 
+de manera única (no repetida) a una ocurrencia. 
+ ¿Qué es una dependencia funcional? Es una relación de implicancia entre dos 
+atributos; si cambia la independiente, cambia la dependiente. La identificación de la 
+clave principal suele ir de la mano con la identificación de los atributos dependientes, 
+donde podríamos preguntar:
+o Si cambio el valor de este atributo, ¿qué otros atributos deben cambiar de 
+valor? Un ejemplo de esto es el Rut; si lo cambio cambia el nombre y la 
+localidad del paciente. Esto también aplica para la especialidad; si cambia la 
+especialidad también cambia el área.
+Un ejemplo de entidad sin Segunda Forma Normal sería el siguiente:
+Figura 5
+Entidad VUELO sin 2FN
+Nota. Ejemplo sin Segunda Forma Normal: Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 24
+24
+Sus tuplas:
+Tabla 10
+Tuplas de la entidad VUELO sin 2FN
+Código Nombre Codigo_vuelo Origen destino
+1 José 101 Santiago Sao Paulo
+2 María 102 Buenos Aires Miami
+3 Pedro 101 Santiago Sao Paulo
+Se debe tener en cuenta que los atributos origen y destino no tienen una relación directa con 
+el atributo código, pero tienen una relación directa con el código de vuelo, ya que son 
+información relacionada en un viaje aéreo, por ejemplo. De esta forma, podemos mover 
+estos datos a una nueva entidad sin que los datos pierdan las relaciones originales.
+Veamos el mismo ejemplo aplicando la Segunda Forma Normal:
+Figura 6
+Entidad VUELO con 2NF
+Nota. Aplicación de Segunda Forma Normal: Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 25
+25
+Y sus respectivas tuplas: 
+Tabla 11
+Tuplas de la entidad VUELO con 2NF
+Codigo_vuelo Origen destino
+101 Santiago Sao Paulo
+102 Buenos Aires Miami
+Por lo tanto, la entidad original elimina los atributos que no necesitan estar ahí, pero que 
+siguen relacionados en una entidad secundaria:
+Figura 7
+Entidad CLIENTE
+Nota. Entidad/Tabla secundaria. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Tabla 12
+Tuplas de la entidad CLIENTE
+Código Nombre Codigo_vuelo
+1 Jose 101
+2 María 102
+3 Pedro 101 
+
+PAGINA 26
+26
+Como un vuelo puede contener varios clientes y un cliente puede tomar varios vuelos, la 
+relación queda con la cardinalidad n:m:
+Figura 8
+Entidades VUELO y CLIENTE
+Nota. Relación con cardinalidad n:m. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Recapitulando, para llevar a una entidad  a la Segunda Forma Normal, no solo es necesario  
+conocer el identificador único y todos los atributos que no son clave, sino también cómo se  
+relacionan entre sí. Para hacerlo se siguen estos pasos: 
+ Comprueba que los atributos no-clave dependen del identificador único. Esta 
+dependencia se da si todos los atributos del identificador único son necesarios para 
+identificar a los atributos no-clave. Esto significa que las entidades con identificador 
+único simple se ajustan automáticamente a la 2FN si se cumplen las condiciones para 
+la 1FN. 
+ Relega a los atributos no-clave que no dependen del identificador único a entidades 
+diferentes. 
+
+PAGINA 27
+27
+Tercera Forma Normal (3FN)
+Una entidad está en Tercera Forma Normal si y solo si:
+ Cumple con las reglas de 2FN.
+ No existen dependencias transitivas.
+La regla de la 3FN es que ningún atributo que no sea Identificador Único puede depender de 
+otro que tampoco sea Identificador Único.
+¿Qué es una dependencia transitiva? 
+Esta se da cuando un atributo depende de otro atributo que no es identificador único. Por 
+ejemplo: SEMESTRE depende de MES y MES depende de FECHA, CIUDAD depende de 
+REGION y LOCALIDAD depende de RUT.  El resultado final es una estructura renovada y 
+óptima para realizar operaciones de bases de datos manteniendo la integridad de la 
+información, con este diagrama se resume el nuevo esquema producto de 1FN, 2FN y 3FN. 
+Aplicar al 100% la Tercera Forma Normal a veces resulta complejo y deriva en crear muchas 
+entidades pequeñas que podría acarrear problemas de rendimiento. Pero básicamente 
+consiste en que si hay atributos que no tienen relación con el identificador único, hay que 
+eliminarlos y colocarlos en una entidad separada, relacionando ambas entidades por medio 
+de una clave externa. No debería haber dependencia transitiva.
+Importante
+En conclusión, la finalidad de la Tercera Forma Normal es eliminar los campos que no 
+dependen de la clave. Los valores de un registro que no forman parte de la clave de 
+ese registro no pertenecen a la entidad. En general, si el contenido de un grupo de 
+campos se aplica a más de un solo registro de la entidad, considera poner estos 
+campos en una entidad independiente. 
+PAGINA 28
+28
+Ten en cuenta la siguiente excepción: cumplir la Tercera Forma Normal, aunque en teoría es 
+deseable, no siempre es práctico. Si tienes una entidad CLIENTE y deseas eliminar todas 
+las dependencias posibles entre los atributos, debes crear entidades independientes para las 
+ciudades, códigos postales, representantes de venta, clases de clientes y cualquier otro 
+factor que pueda estar duplicado en varios registros. En teoría, la normalización merece la 
+pena. Sin embargo, muchas entidades pequeñas pueden degradar el rendimiento o superar 
+la capacidad de memoria o de archivos abiertos.
+Puede ser más factible aplicar la 
+Tercera Forma Normal solo a los 
+datos que cambian con frecuencia. Si 
+quedan algunos atributos 
+dependientes, diseña la aplicación 
+para que pida al usuario que 
+compruebe todos los campos 
+relacionados cuando cambie alguno.
+Por ejemplo, la entidad CLIENTE no está en Tercera Forma Normal, tiene los atributos 
+comuna, ciudad y región que requieren un listado para poder definirlas si queremos 
+mostrarlas en algún sistema tal vez:
+Figura 9
+Entidad CLIENTE sin 3FN
+Nota. Entidad sin Tercera Forma Normal. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/   
+
+PAGINA 29
+29
+Si aplicamos la Tercera Forma Normal, quedaría de la siguiente manera:
+Figura 10
+Relación
+Nota. Aplicación de la Tercera Forma Normal. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 30
+30
+Cuarta Forma Normal (4FN)
+La Cuarta Forma Normal se enfoca en eliminar dependencias multivaluadas entre los 
+atributos de la clave, es decir, si hay más atributos que en la clave primaria o externa, se 
+repiten en la entidad o tabla. Si esto ocurre, generamos nuevas entidades para eliminar la 
+redundancia y mantener las relaciones entre los atributos. 
+La siguiente es una entidad sin 4FN
+Figura 11
+Tabla ‘Música’
+Nota. Entidad sin la Cuarta Forma Normal. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Tabla 13
+Tuplas de la entidad MUSICA
+Música Artista disco
+Música 1 Artista A Disco 1
+Música 1 Artista B Disco 2
+Música 2 Artista A Disco 1
+El atributo ‘Musica’ está relacionado con “artista” y “disco”. Sin embargo, el artista y la 
+duración no pueden estar relacionados, porque sabemos que la misma canción puede estar 
+en varios álbumes diferentes y también puede ser cantada por diferentes artistas. 
+
+PAGINA 31
+31
+Por lo tanto, lo ideal es que se produzca la división de esta entidad y así eliminar las 
+repeticiones entre los datos. El modelo se vería de esta forma sin la normalización:
+Figura 12
+Relación sin normalización
+Nota. Modelo sin normalización. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Ahora, si aplicamos la normalización, quedaría de la siguiente forma:
+ La primera entidad nueva:
+Tabla 14
+Primera entidad 
+Música disco
+Música 1 Disco 1 
+Música 1 Disco 2 
+Música 2 Disco 1 
+
+PAGINA 32
+32
+ La segunda entidad nueva:
+Tabla 15
+Segunda entidad
+Música artista
+Música 1 Artista A 
+Música 1 Artista B 
+Música 2 Artista A 
+El modelo entonces quedaría de la siguiente forma:
+Figura 13
+Relación con 4FN 
+Nota. Modelo normalizado. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 33
+33
+Quinta Forma Normal (5FN)
+La 5FN, también llamada Proyección Unión, es una forma normal bastante particular. Entre 
+sus características se encuentran:
+ De todas las que hemos visto, esta es la menos usada y solamente se aplica en casos 
+muy concretos.
+ La entidad tiene que estar en 4FN. 
+ Todas las dependencias de unión (Join en SQL) están implicadas por claves candidatas. 
+Esta forma se usa para entidades con atributos, o que puedan generar redundancia o 
+incoherencia de información con las uniones. Se divide en dos partes: 
+Por ejemplo, tenemos un grupo de tiendas que venden artículos electrónicos; me interesa 
+obtener el nombre de la tienda, las marcas disponibles y los productos que tienen:
+PAGINA 34
+34
+Tabla 16
+Entidad TIENDA
+Tiendas Marcas productos
+El señor de la tienda Logytek Mouse
+El señor de la tienda Logytek Teclados
+El señor de la tienda Logytek audífonos
+Tienda 2 Ryzer Mouse
+Tienda 2 Ryzer Teclados
+Tienda 2 Ryzer audífonos
+Claves primarias Dependencias Funcionales
+ (Tiendas + Marcas + Productos)  Tiendas à Tiendas
+ Marcas à Marcas
+ Productos à Productos
+Analizando la clave primaria y las dependencias, podemos determinar que cumple todas las 
+formas (1FN, 2FN, 3FN, 4FN).
+Imagina que aplicas una condición a tu entidad, “las tiendas tienen ciertas marcas y ciertos 
+productos en su almacén. Por ejemplo, el señor de la tienda vende artículos marca Logytek 
+de Ryzer, y además tiene mouses disponibles (suponiendo que ambas marcas produzcan 
+mouses), la tienda debe ofrecer mouses tanto de Logytek como de Ryzer”.
+PAGINA 35
+35
+En ese caso, puedes optimizar tu base de datos creando nuevas entidades. Sin embargo, 
+asegúrate de que este proceso de división no produzca inconsistencias en los datos. Debes 
+garantizar que la información separando las entidades sea equivalente y no menos completa 
+que la información original. 
+Tus proyecciones podrían ser:
+ Todas las marcas disponibles en las tiendas:
+Tabla 17
+Tiendas – Marcas
+Tiendas marcas 
+El señor de la tienda Logytek 
+Tienda 2 Ryzer 
+ Todos los productos disponibles en las tiendas:
+Tabla 18
+Tiendas – Productos
+Tiendas productos 
+El señor de la tienda Mouse 
+El señor de la tienda Teclados 
+El señor de la tienda audífonos 
+Tienda 2 Mouse 
+Tienda 2 Teclados 
+Tienda 2 audífonos 
+PAGINA 36
+36
+ Los productos que tiene cada marca:
+Tabla 19
+Marcas - Productos
+Marcas Productos 
+Logytek Mouse 
+Logytek Teclados 
+Logytek audífonos 
+Ryzer Mouse 
+Ryzer Teclados 
+Ryzer audífonos 
+Parece que ahora tenemos que agregar más información que antes, pero realmente no. 
+Vamos a agregar que la tienda vende teclados y audífonos Ryzer para estar igual que en la 
+otra sucursal. En la antigua composición quedaría así:
+Tabla 20
+Productos de las tiendas
+Tiendas Marcas productos 
+El señor de la tienda Logytek Mouses
+El señor de la tienda Logytek Teclados 
+El señor de la tienda Logytek audífonos 
+Tienda 2 Ryzer Mouse 
+Tienda 2 Ryzer Teclados 
+PAGINA 37
+37
+Tiendas Marcas productos 
+Tienda 2 Ryzer audífonos 
+El señor de la tienda Logytek Mouses
+El señor de la tienda Logytek Teclados 
+El señor de la tienda Logytek audífonos 
+Mientras que, en la nueva, agregamos menos información a una sola entidad porque ya 
+tenemos los demás datos:
+Tabla 21
+Marcas disponibles en la nueva sucursal
+Tiendas marcas 
+El señor de la tienda Logytek 
+Tienda 2 Ryzer 
+El señor de la tienda Ryzer 
+A largo plazo, estas entidades tendrán una eficiente gestión de recursos y podrá acceder de 
+forma sencilla con las consultas join que necesites.
+Video
+En el video “Normalización de base de datos: descripción y características de las 5 formas 
+normales” podrás encontrar los principales conceptos sobre cómo modelar datos con las 
+normas básicas de normalización: https://www.youtube.com/watch?v=NTZPG7KycBw
+PAGINA 38
+38
+Relaciones redundantes
+Cuando se normaliza el modelo conceptual, también se deben eliminar los loops (ciclos o 
+bucles) o relaciones redundantes en el caso de que existan. Para ello, se debe eliminar la 
+relación más débil o menos importante.
+En el siguiente ejemplo, existe una relación redundante entre las entidades DISCO, 
+CANCION e INTERPRETE.
+Figura 14
+Ejemplo Relación redundante disco, canción, interprete
+Nota. Esta figura ilustra un modelo relacional que organiza las entidades Disco, Canción e 
+Intérprete. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Para este caso las entidades CANCION e INTERPRETE se relacionan a través de la entidad 
+DISCO, por este motivo es eliminada la relación entre las entidades CANCION e 
+INTERPRETE.
+PAGINA 39
+39
+Figura 15
+Modelo Relacional de Disco, Canción e Intérprete
+Nota. Esta figura representa un modelo relacional compuesto por las entidades Disco, 
+Canción e Intérprete, interconectadas para describir relaciones musicales. Oracle. (s.f.). 
+Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Eliminando relaciones M:M
+Las relaciones Muchos a Muchos son casos comunes cuando creamos el modelo 
+conceptual inicial. Sin embargo, este tipo de relaciones no se pueden crear en el modelo 
+físico y generalmente se eliminan al construir el modelo relacional.
+Se sugiere eliminar este tipo de relaciones en el modelo conceptual, para lo cual se debe 
+crear una entidad intermedia denominada Entidad Intersección. En algunos casos, la entidad 
+intermedia puede tener sus propios atributos que la permitan diferenciarse. Al crear esta 
+entidad la relación de M:M se convierte en 2 relaciones de 1:M, las cuales pueden ser 
+dependiente por existencia o identificación.
+PAGINA 40
+40
+En el siguiente ejemplo se muestra una relación de M:M donde un COMPROBANTE_VENTA 
+debe tener uno o muchos PRODUCTOS y un PRODUCTO se puede encontrar en uno o 
+muchos COMPROBANTE_VENTA.
+Figura 16
+Relación M:M, producto, comprobante venta
+Nota. Este modelo relacional conecta las entidades Producto y Comprobante_Venta, 
+representando un sistema de inventario y ventas. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+Para este caso se ha creado la entidad intersección DETALLE_VENTA que contiene dos 
+atributos propios que fueron obtenidos desde el COMPROBANTE_VENTA. Las relaciones 
+creadas son con identificación para que cada DETALLE_VENTA se identifique únicamente 
+por los atributos num_comprobante y cod_barra_prod.
+Figura 17
+Relación creada con identificación
+Nota. Este modelo relacional integra las entidades Producto, Detalle_Venta, y 
+Comprobante_Venta, proporcionando una visión detallada de las transacciones de venta. 
+Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 41
+41
+Normalización desde vista de usuario
+Paso 1 - Definir una entidad inicial
+El primer paso consiste en definir una entidad genérica que contenga todos los atributos 
+necesarios para la información que se necesita registrar en la base de datos a partir de la 
+Vista de Usuario que en este caso es una BOLETA_ELECTRONICA.
+En el siguiente ejemplo, verás que los atributos monto_neto, IVA y monto_total son 
+ATRIBUTOS DERIVADOS porque:
+ MONTO_NETO: se puede obtener sumando los valores de todos los productos 
+comprados.
+ IVA: se puede calcular a partir de la sumatoria de los valores de los productos comprados 
+y el porcentaje relacionado al IVA.
+ MONTO_TOTAL: se puede obtener sumado el valor de todos los productos comprados 
+más el valor calculado IVA.
+Cuando los valores derivados necesitan ser consultados con frecuencia y los valores sobre 
+los cuales se obtienen cambian con poca frecuencia se opta por mantenerlos como atributos 
+en beneficio de las consultas que se efectuarán posteriormente sobre las tablas. Es por esta 
+razón que en el ejemplo estos atributos se mantienen.
+PAGINA 42
+42
+Figura 18
+Diagrama de BOLETA_ELECTRONICA
+Nota. La entidad BOLETA_ELECTRONICA representa los datos clave de una transacción 
+comercial emitida en formato digital. Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Paso 2 - Aplicar Primera Forma Normal – 1FN
+Creada la entidad genérica BOLETA_ELECTRONICA se debe ver si se encuentra en 
+Primera Forma Normal (1FN). En este caso claramente la entidad no está en 1FN ya que 
+existe un grupo de atributos que pueden tener múltiples valores para una misma instancia 
+BOLETA_ELECTRONICA. Por lo tanto, con esos atributos que pueden tener múltiples 
+valores para una misma BOLETA_ELECTRONICA se debe crear una nueva entidad 
+DETALLE_BOLETA y esos atributos se eliminan de la entidad original.
+PAGINA 43
+43
+Figura 19
+Normalización de la entidad BOLETA_ELECTRONICA
+Nota. En este modelo actualizado, se ha realizado un proceso de normalización sobre la 
+entidad BOLETA_ELECTRÓNICA, separando los atributos relacionados con los detalles de 
+los artículos en una nueva entidad denominada DETALLE_BOLETA. Oracle. (s.f.). Oracle 
+Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Paso 3 - Aplicar Segunda Forma Normal – 2FN
+Se debe crear una nueva entidad ARTICULO con los atributos que dependen 
+completamente del atributo identificador único codigo_articulo.
+PAGINA 44
+44
+Figura 20
+Normalización adicional de la entidad DETALLE_BOLETA
+Nota. En este paso, el modelo se ha refinado aún más para mejorar la normalización. 
+Oracle. (s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Paso 4 - Aplicar Tercera Forma Normal – 3FN
+Se debe crear, con esos atributos, las entidades VENDEDOR y ORDEN_COMPRA y se 
+eliminan de la entidad BOLETA_ELECTRONICA.
+PAGINA 45
+45
+Figura 21
+Separación de entidades para una mayor normalización
+Nota. En este ajuste, se continúa con la normalización del modelo de datos. Los datos del 
+vendedor y de la orden de compra han sido separados en nuevas entidades independientes: 
+VENDEDOR y ORDEN_COMPRA, respectivamente. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+Links de Interés
+Además, en los siguientes links podrás profundizar en la normalización:
+ https://openwebinars.net/blog/como-realizar-la-normalizacion-de-bases-de-datos-y-  
+por-que/
+ https://www.cs.upc.edu/~bcasas/docencia/pfc/NormalitzacioBD.pdf  
+PAGINA 46
+46
+Cierre de la semana
+La normalización de la base de datos es el 
+proceso mediante el cual se designa y aplica 
+una serie de reglas a las relaciones obtenidas 
+del modelo relacional, para disminuir la 
+redundancia de datos y facilitar su gestión. 
+Existen 5 formas normales: La primera es la 
+forma normal propia al esquema relacional. 
+La segunda forma normal trabaja centrada en 
+las posibles redundancias en las tablas. La 
+tercera forma normal tiene como finalidad eliminar los campos que no dependen de la clave. 
+La cuarta forma normal se enfoca en eliminar dependencias multivaluadas entre los atributos 
+de la clave. Por último, la quinta forma normal es principalmente usada para tablas con 
+muchas columnas, o que puedan generar alguna redundancia o incoherencia de información 
+con las uniones. 
+
+PAGINA 47
+47
+Referencias
+ Chocobar, Héctor. (2022). Cómo realizar la normalización de bases de datos y por 
+qué. OpenWebinars. https://openwebinars.net/blog/como-realizar-la-normalizacion-de-
+bases-de-datos-y-por-que/
+ EWebik. (2021). 5. Normalización de base de datos - Las 5 formas normales - Curso 
+de Base de Datos Español 2021. [Video] YouTube. https://www.youtube.com/watch?
+v=NTZPG7KycBw
+Lecturas de la semana
+Unidad 3: Los esquemas relacionales y su transformación - 3.6 Normalización.
+Postigo, A. (2021). Base de datos. Ediciones Paraninfo S.A. https://webezproxy.duoc.cl/login?
+url=http://biblioteca.duoc.cl/bdigital/elibros/a49346-Bases_de_datos/160/ Páginas 148 a 153.
+PAGINA 48
+48
+Apuntes
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+PAGINA 49
+Reservados todos los derechos Fundación Instituto Profesional Duoc UC. No se permite copiar, reproducir, 
+reeditar, descargar, publicar, emitir, difundir, de forma total o parcial la presente obra, ni su incorporación a un 
+sistema informático, ni su transmisión en cualquier forma o por cualquier medio (electrónico, mecánico, 
+fotocopia, grabación u otros) sin autorización previa y por escrito de Fundación Instituto Profesional Duoc UC 
+La infracción de dichos derechos puede constituir un delito contra la propiedad intelectual. 

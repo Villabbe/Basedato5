@@ -1,0 +1,450 @@
+PAGINA 1
+Guía de aprendizaje 
+Jerarquía entre entidades
+Exp 1 – Semana 3
+Modelamiento de Bases de Datos 
+Facilitador disciplinar: Rocío Contreras Águila
+Asesor par: Alejandra Gajardo
+
+PAGINA 2
+2
+Índice
+Introducción a la semana...........................................................................................................3
+Resultado de aprendizaje..........................................................................................................4
+Conceptos relevantes.................................................................................................................4
+Preguntas activadoras................................................................................................................5
+Actividad.....................................................................................................................................5
+Modelo Entidad-Relación (MER)................................................................................................6
+Entidades y Atributos.......................................................................................................6
+Relación y Cardinalidad...................................................................................................8
+Modelo Entidad Relación Extendido (MER-E).........................................................................10
+Jerarquías......................................................................................................................11
+Herencia........................................................................................................................13
+Supertipo y Subtipo.......................................................................................................13
+Especialización y Generalización..................................................................................16
+Relación de Exclusividad...............................................................................................20
+Relación Intransferible o No Transferible......................................................................21
+Dato..........................................................................................................................................22
+Cierre de la semana.................................................................................................................23
+Referencias..............................................................................................................................24
+Lecturas de la semana.............................................................................................................24
+Apuntes....................................................................................................................................25
+PAGINA 3
+3
+Introducción a la semana
+Ya te encuentras en la última de las 
+semanas correspondientes a la Experiencia 
+1: Construyendo un modelo de bases de 
+datos simple. 
+En semanas anteriores, exploraste 
+conceptos fundamentales como la 
+identificación de entidades fuertes y 
+débiles, distinguiendo aquellas que tienen 
+una existencia independiente de otras y 
+aquellas que dependen de entidades relacionadas. Asimismo, aprendiste a determinar los 
+atributos de cada entidad, clasificándolos en obligatorios y no obligatorios, y destacando la 
+importancia del identificador único, un elemento clave para garantizar la unicidad dentro de 
+una base de datos. Además, lograste relacionar entidades con sus respectivas 
+cardinalidades (como uno a uno, uno a muchos, y muchos a muchos) y cómo estas se 
+representan en un modelo Entidad Relación (MER). Por último, complementaste este avance 
+con una evaluación de la lógica del negocio, asegurando que el diseño de la base de datos 
+refleje correctamente las reglas y restricciones del dominio.
+Ahora, añadiremos a tu conocimiento la identificación de jerarquías y especializaciones, un 
+concepto avanzado que introduce las relaciones entre supertipos y subtipos, permitiendo 
+modelar estructuras más complejas y detalladas dentro de los esquemas de bases de datos 
+llamados Modelos Entidad Relación Extendidos (MER-E). 
+
+PAGINA 4
+4
+Resultado de aprendizaje
+El estudiante será capaz de:
+RA1. Diseña el modelo conceptual de datos para la representación de información, de 
+acuerdo con los requerimientos de la organización.
+Indicador de logro:
+IL1. Representa atributos de las entidades, opcionales y obligatorios en el modelo 
+conceptual asociados al problema planteado.
+IL2. Representa el Modelo conceptual, el Diseño lógico e identificadores únicos aplicado a 
+un caso de acuerdo a los requerimientos de la organización.
+IL3. Representa relaciones y su cardinalidad entre las entidades asociadas al problema 
+planteado con elementos simples y extendidos.
+IL4. Representa las relaciones del Modelo Entidad-Relación Extendido en el modelo 
+conceptual, asociadas al problema planteado.
+Conceptos relevantes
+Jerarquía Exclusividad de Relaciones Herencia
+Relaciones intransferibles Supertipos Subtipos
+PAGINA 5
+5
+Preguntas activadoras
+ ¿Cómo influye la incorporación de jerarquías (supertipos y subtipos) en el diseño de 
+un modelo Entidad Relación? 
+ ¿Se puede decidir si una jerarquía debe ser exclusiva (disyunta) o no exclusiva al 
+modelar relaciones entre supertipos y subtipos?
+ ¿Qué criterios se deben considerar para decidir si una entidad debe ser modelada 
+como un subtipo en lugar de ser una entidad independiente dentro de un esquema de 
+base de datos?
+Actividad
+Descripción de la actividad
+En esta tercera semana, realizarás una actividad sumativa individual con encargo llamada 
+"Modelando jerarquías entre entidades", donde deberás dar solución al caso de negocio 
+planteado, desarrollando un Modelo Entidad-Relación-Extendido (MER-E) basado en un 
+contexto de la vida real. En esta actividad, será necesario que identifiques todas las 
+entidades, así como las relaciones entre ellas, con sus identificadores únicos, atributos 
+obligatorios y opcionales, los supertipos y subtipos, de ser necesarios. Además, deberás 
+analizar y determinar los tipos de datos más adecuados para cada atributo, así como su 
+dominio.
+PAGINA 6
+6
+Modelo Entidad-Relación (MER)
+Un modelo conceptual de datos de alto nivel que oculte los detalles de implementación de la 
+base de datos satisface los requerimientos para la comprensión de la capa de 
+almacenamiento de un sistema. El modelo entidad-relación es un modelo conceptual que 
+representa la vista estructural de datos de un sistema a través de entidades y relaciones 
+entre las entidades pertinentes de un sistema.
+Entidades y Atributos
+Recordemos que una entidad es una cosa, objeto o persona significativo, ya sea real o 
+imaginario, que existe o puede llegar a existir, acerca del que se requiere conocer o 
+almacenar información. Mientras que los atributos describen las características de las 
+entidades o relaciones y pueden clasificarse en varios tipos: 
+ Simples: contienen valores indivisibles.
+ Compuestos: pueden descomponerse en subcomponentes.
+ Multivalorados: admiten múltiples valores para una misma entidad.
+ Derivados: su valor se calcula a partir de otros atributos.
+ Clave: identifican de manera única a una entidad.
+ De relaciones: describen propiedades específicas de las relaciones.
+ Complejos: combinan atributos compuestos y multivalorados. 
+Un atributo único es un atributo cuyo valor no se repite dentro de un conjunto de entidades, 
+garantizando que cada instancia tenga un valor exclusivo para ese atributo. Aunque puede 
+actuar como una clave, no necesariamente es el identificador principal de la entidad. Por 
+ejemplo, en una entidad VEHÍCULO, la patente podría ser único, pero otra clave, como el 
+número de VIN, podría utilizarse como identificador principal. Este tipo de atributo 
+simplemente asegura la exclusividad de sus valores dentro del contexto.
+PAGINA 7
+7
+Por otro lado, un atributo con identificador único es un atributo que se utiliza específicamente 
+como clave primaria para identificar de manera inequívoca cada instancia de una entidad. 
+Este atributo no solo debe ser único, sino también obligatorio, ya que su función principal es 
+distinguir cada registro de manera directa. Por ejemplo, en una entidad CLIENTE, el RUT del 
+cliente sería un identificador único que permite identificar a cada cliente en el sistema sin 
+ambigüedad. La diferencia principal entre ambos es que, aunque ambos son únicos, el 
+identificador único tiene un propósito definido como clave primaria de la entidad.
+Figura 1
+Ejemplo de entidades y atributos
+Nota. La figura representa un modelo Entidad-Relación en el que se detallan las 
+interacciones entre las entidades Película, Actor y Estudio. Pereira, S. (2019). El modelo 
+entidad-relación. SlidePlayer.es: https://slideplayer.es/slide/13046842/
+Link de interés
+A través del siguiente enlace, podrás conocer como diagramar claves únicas y alternativas 
+en SQL Developer Data Modeler: https://www.youtube.com/watch?v=jSEnG5wusZ4
+
+PAGINA 8
+8
+Relación y Cardinalidad
+Una relación es una asociación bidireccional y significativa entre ambas entidades, o entre 
+una entidad y ella misma. Toda relación tiene dos extremos, para cada uno de los cuales 
+existen:
+ Una leyenda
+ Una opcionalidad (opcional u obligatoria) 
+ Un grado o cardinalidad (uno o muchos) 
+Figura 2
+Diagrama de relación: Cardinalidades entre entidades
+Nota. La figura ilustra una relación entre dos entidades, destacando las cardinalidades 
+asociadas.
+Cuando el extremo de la relación es obligatorio, se emplea el verbo “debe” antes del nombre 
+de la relación. Para relaciones opcionales, se emplea el verbo “puede”. Así, el diagrama 
+anterior se lee de izquierda a derecha como:
+En otras palabras, debes seguir la siguiente fórmula:
+
+PAGINA 9
+9
+Un ejemplo de esto puede ser:
+Figura 3
+Relaciones entre entidades y cardinalidades: Asignatura, Cliente y Empleado
+Nota. Este diagrama ilustra ejemplos comunes de relaciones entre entidades con sus 
+respectivas cardinalidades y descripciones asociadas. 
+Links de Interés
+ En el siguiente enlace podrás aprender sobre metodologías para elaborar un modelo 
+conceptual de datos: 
+https://repository.ucc.edu.co/server/api/core/bitstreams/f507a959-8413-4883-9236-
+036b7748a988/content
+ Si quieres practicar el Modelo Entidad Relación, te recomendamos ingresar al 
+siguiente enlace: https://users.dcc.uchile.cl/~mnmonsal/BD/guias/g-modeloER.pdf
+ Y, además, si quieres conocer más sobre los modelos Entidad Relación, ingresa en 
+este enlace: https://www.ilerna.es/blog/informatica-comunicacion/modelo-entidad-
+relacion-base-de-datos/
+PAGINA 10
+10
+Modelo Entidad Relación Extendido (MER-E)
+El MER-E o Modelo Entidad Relación Extendido es una extensión del Modelo Entidad 
+Relación básico, el cual permite representar extensiones o relaciones exclusivas las cuales 
+permiten eliminar la redundancia de los atributos al momento de trabajar en diferentes bases 
+de datos. Con la evolución de los requerimientos, es necesario extender y mejorar la 
+semántica del modelo entidad relación.
+Figura 4
+Ejemplo Modelo Entidad-Relación Extendido (MER-E) 
+Nota. Esta figura presenta un modelo entidad-relación extendido donde la entidad principal 
+es "Empleado", subdividida en dos especializaciones: "Profesor" y "Administrativo". Oracle. 
+(s.f.). Oracle Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 11
+11
+Los nuevos símbolos permiten explicar: 
+ Jerarquías
+ Herencia
+ Exclusividad de relaciones
+ Relaciones intransferibles
+Conozcámoslas a continuación:
+Jerarquías
+Es un tipo de relación especial entre una entidad llamada Supertipo y otras entidades 
+llamadas Subtipos. Se utilizan para modelar tipos exclusivos de entidades que tienen 
+atributos y relaciones comunes.
+La relación entre cada Supertipo y Subtipo de llama relación ISA o ES, ya que la jerarquía 
+que se establece entre uno y otro corresponde a la notación de “es un” o de “es un tipo de”.
+Figura 5
+Modelo Entidad/Relación extendida: Jerarquía
+Nota. La figura representa una jerarquía de especializaciones basada en el modelo ISA (Is-
+A), donde "Médico" es la entidad genérica y se ramifica en diferentes especialidades como 
+"Cirujano", "Pediatra", "Oftalmólogo", "Ginecólogo" y "Dermatólogo". López, J. (2022). Mod 
+BD UD2 Deseño Conceptual. https://wiki.cifprodolfoucha.es/index.php?
+title=Mod_BD_UD2_Dese%C3%B1o_Conceptual 
+PAGINA 12
+12
+La jerarquía es un proceso de dividir una entidad en varias subentidades, relacionándolas 
+con la entidad a la que se refieren o a la entidad PADRE, por lo tanto, las subentidades son 
+HIJOS.
+Figura 6
+Entidad con jerarquía
+Nota. La figura muestra una relación jerárquica entre dos entidades, donde "ENTIDAD_B" 
+está contenida dentro de "ENTIDAD_A". Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+
+PAGINA 13
+13
+Herencia
+La herencia es la implementación de la jerarquía de subtipos y supertipos, dado que los 
+subtipos heredan todos los atributos de la entidad supertipo.
+En ocasiones tiene sentido subdividir una entidad A en subtipos de entidad. Esto puede ser 
+útil cuando algunas de las instancias de la entidad A tienen propiedades especiales, como 
+atributos o relaciones que no se aplican a todas las instancias de la entidad A. Este grupo de 
+entidades se denomina Subtipo. 
+Figura 7
+Ejemplo de Herencia
+Nota. La figura representa una estructura jerárquica de supertipo y subtipo entre las 
+entidades "ENTIDAD_A" y "ENTIDAD_B". Oracle. (s.f.). Oracle Data Modeler [Software]. 
+Oracle. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Supertipo y Subtipo
+El supertipo es una entidad genérica que contiene dos o más subtipos. Una entidad puede 
+tener sub-agrupaciones de entidades que es importante representar explícitamente por su 
+importancia para el diseño.
+El subtipo es una agrupación de instancias de la entidad supertipo que cumplen un papel 
+específico y que se debe representar explícitamente. Una entidad que es de un tipo o grupo 
+PAGINA 14
+14
+del supertipo que contiene atributos específicos que no están contenidos en otros subtipos 
+del mismo supertipo.
+Importante
+Para crear un Supertipo y subtipos ambos deben compartir atributos en común.
+Figura 8
+Ejemplo de Supertipo AUTOMÓVIL, y subtipos MOTOCICLETA, CAMIONETA y 
+REMOLQUE
+Nota. La figura muestra la entidad principal "AUTOMOVIL", que funciona como supertipo con 
+atributos generales compartidos por todos los subtipos (patente y color). Oracle. (s.f.). Oracle 
+Data Modeler [Software]. Oracle. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Reglas que se deben considerar:
+ Un subtipo hereda todos los atributos del supertipo.
+ Un subtipo hereda todas las relaciones del supertipo.
+PAGINA 15
+15
+ Un subtipo normalmente tiene sus propios atributos o relaciones.
+ Un subtipo nunca existe solo, requiere del supertipo.
+ Un subtipo con sus atributos y relaciones específicos más los atributos y relaciones 
+que hereda del supertipo es un tipo de entidad por derecho propio.
+ Cada supertipo debe tener AL MENOS dos subtipos.
+ El atributo usado como identificador único del supertipo debe coincidir con el 
+identificador único de los subtipos.
+ Un subtipo puede tener aún más subtipos, pero se debe tratar de modelar no más de 
+dos o tres niveles de profundidad.
+Figura 9
+Ejemplo de Supertipo CUENTA BANCARIA y Subtipo CUENTA CORRIENTE y CUENTA 
+AHORRO
+Nota. La figura representa el modelo de datos de una entidad principal 
+"CUENTA_BANCARIA", que funciona como supertipo. Oracle. (s.f.). Oracle Data Modeler 
+[Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 16
+16
+PAGINA 17
+17
+Especialización y Generalización
+Las jerarquías pueden formarse por Especialización y Generalización. En la siguiente 
+gráfica se detallan estos conceptos:
+Podrás ver en el ejemplo, que el Supertipo VEHICULO posee los atributos que son comunes 
+a los subtipos CAMION y REMOLQUE. En este caso, solo el subtipo CAMION posee 
+atributos propios. Si un subtipo no posee atributos, de igual forma se debe graficar en el 
+modelo. Los atributos del Supertipo serán heredados a cada subtipo.
+Las siguientes imágenes muestran cómo se ven graficadas las jerarquías en Oracle SQL 
+Developer Data Modeler. 
+Al hacer clic con el botón derecho en el área de trabajo (parte blanca) se despliega el menú: 
+Notación - Presentación de Cuadros Concéntricos para herencia de entidad, la jerarquía 
+se verá de la siguiente manera:
+PAGINA 18
+18
+Figura 10
+Opciones de Notación en Herramientas de Modelado
+Nota. La figura muestra las opciones de configuración para seleccionar el estilo de notación 
+en herramientas de modelado de datos. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Figura 11
+Ejemplo de Supertipo VEHICULO y Subtipos REMOLQUE y CAMION
+Nota. La figura presenta un modelo conceptual que ilustra la jerarquía de supertipo y 
+subtipos en la entidad "Vehículo". Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+En cambio, si no se utiliza la opción anterior, los subtipos salen del interior de Supertipo y se 
+unirán con flechas de color rojo cómo es mostrado en el siguiente ejemplo:
+PAGINA 19
+19
+Figura 12
+Selección de Notación
+Nota. La figura muestra el menú de opciones de notación en un modelador de bases de 
+datos, con un enfoque en las diferentes formas de representar diagramas lógicos o 
+conceptuales. Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Figura 13
+Ejemplo de Supertipo VEHICULO y Subtipos REMOLQUE y CAMION
+Nota. La figura muestra un modelo jerárquico donde la entidad Vehículo actúa como una 
+entidad generalizada (supertipo), mientras que las entidades Camión y Remolque son 
+especializaciones (subtipos). Oracle. (s.f.). Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 20
+20
+En el siguiente ejemplo, podemos ver cómo se relacionan los supertipos y subtipos con otras 
+entidades.  El Supertipo EMPLEADO posee los subtipos de empleados contratados como 
+PROFESOR y empleados que trabajan en labores de ADMINISTRATIVO. Ambos empleados 
+pueden tener CARGAS FAMILIARES, pero sólo el empleado PROFESOR puede dictar 
+ASIGNATURAS. 
+Figura 14
+Ejemplo de Supertipo EMPLEADO, subtipo PROFESOR, ADMINISTRATIVO
+Nota. Ejemplo de relaciones entre supertipos y subtipos con otras entidades en un modelo 
+Entidad Relación Extendido. Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+PAGINA 21
+21
+Relación de Exclusividad
+Dos o más relaciones son exclusivas respecto de una entidad que participa en ambas 
+relaciones, sí cada instancia de la entidad sólo puede participar en una de las relaciones. Se 
+representa a través de un arco.
+Un arco indica que una instancia de una entidad puede tener sólo una relación válida 
+respecto a las entidades que la rodean.
+En el ejemplo indica que un CONTRATO en particular corresponde a una EMPRESA o a 
+una PERSONA, pero el mismo contrato no puede estar asociado a ambos a la vez.
+Figura 15
+Ejemplo de Relación Exclusiva: CONTRATO
+Nota. La figura muestra el modelo relacional para la gestión de contratos, donde la entidad 
+Contrato contiene información clave como su identificador y la fecha de emisión. Oracle Data 
+Modeler [Software]. https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-
+modeler/
+Otro ejemplo, una TAREA en particular es encargada a un EMPLEADO DE PLANTA o a un 
+EMPLEADO A HONORARIO, pero no ambos a la vez.
+PAGINA 22
+22
+Figura 16
+Ejemplo de Relación Exclusiva: TAREA
+Nota. La figura representa un modelo relacional que vincula la entidad Tarea con dos tipos 
+de empleados: Empleado_Honorario y Empleado_Planta. Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+ 
+Relación Intransferible o No Transferible
+Normalmente, una instancia de entidad se puede conectar a otra por medio de una relación,  
+y consecuentemente se puede desconectar y volver a conectar a otra instancia del mismo tipo. 
+Si esto no se permite en las relaciones, entonces se dice que la relación es intransferible o no 
+transferible.
+Que una relación sea intransferible quiere decir que la relación no se puede volver a 
+conectar con otra instancia. Una relación no transferible se indica mediante un rombo en la 
+terminación apropiada de la relación.
+En el ejemplo, la relación cheque a persona es intransferible debido a que, por lo general, 
+los cheques están destinados a una persona o razón social especifica y no se pueden 
+“compartir” de persona en persona, es decir, ese cheque no se le puede pasar a otra 
+persona que no sea el que se ha especificado.
+Figura 17
+PAGINA 23
+23
+Ejemplo de Relación Intransferible Cheque-Persona
+Nota. Esta figura muestra el modelo relacional que conecta la entidad Cheque con la entidad 
+Persona mediante una relación de emisión. Oracle Data Modeler [Software]. 
+https://www.oracle.com/cl/database/sqldeveloper/technologies/sql-data-modeler/
+Dato
+Con tu cuenta DUOC tienes acceso a Oracle Academy, lugar donde puedes tomar cursos 
+para aprender por tu cuenta sobre Oracle y todas sus herramientas. 
+https://academy.oracle.com/es/ 
+PAGINA 24
+24
+Cierre de la semana
+La cardinalidad en el modelado de bases de datos es esencial para definir el tipo y número 
+de relaciones entre entidades en un Modelo Entidad-Relación (MER). Determina si las 
+relaciones son de tipo uno a uno, uno a muchos, muchos a uno, o muchos a muchos, 
+estableciendo reglas cuantitativas para vincular las instancias de cada entidad. Por ejemplo, 
+en una relación uno a uno, cada instancia de una entidad corresponde exactamente a una 
+de otra, mientras que en una relación uno a muchos, una instancia puede estar asociada con 
+múltiples instancias de otra entidad.
+Esta semana se abordaron conceptos avanzados del modelo Entidad-Relación Extendido, 
+como jerarquía, herencia, subtipo y supertipo, que permiten organizar y estructurar datos de 
+manera lógica y clara. Además, se profundizó en las relaciones intransferibles, que 
+garantizan consistencia al evitar reasignaciones indebidas, y las relaciones de exclusividad, 
+que aseguran que una entidad no participe en relaciones mutuamente excluyentes. Ahora es 
+momento de aplicar estos conceptos en la actividad práctica de la semana.
+
+PAGINA 25
+25
+Referencias
+ Delgado, P. (2025). El modelo Entidad-Relación extendido. 
+https://pablodelgadoflores.com/modelo-entidad-relacion-extendido/
+ Sánchez, J. (s.f.). Manual de Gestión de Bases de Datos [2] Modelo Entidad/Relación. 
+https://jorgesanchez.net/manuales/gbd/entidad-relacion.html#h25
+ Sánchez, J. (2024). Tipos de Relaciones ISA. [Video]. YouTube. 
+https://www.youtube.com/watch?v=Ph7W0vYwWTY
+Lecturas de la semana
+ Capítulo 2: Diseño conceptual. El modelo entidad-relación - 2.3.2. Tipos de 
+interrelaciones atendiendo a la cardinalidad.
+Postigo, A. (2021). Bases de datos. Ediciones Paraninfo S.A. 
+https://webezproxy.duoc.cl/login?url=http://biblioteca.duoc.cl/bdigital/elibros/a49346-
+Bases_de_datos/76/. Páginas 64 a 85.
+ Capítulo 2: Diseño conceptual. El modelo entidad-relación - 2.7. Generalización. 
+Herencia de propiedades.
+Postigo, A. (2021). Bases de datos. Ediciones Paraninfo S.A. 
+https://webezproxy.duoc.cl/login?url=http://biblioteca.duoc.cl/bdigital/elibros/a49346-
+Bases_de_datos/104/ Páginas 92 a 97
+PAGINA 26
+26
+Apuntes
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+__________________________________________________________________________
+PAGINA 27
+Reservados todos los derechos Fundación Instituto Profesional Duoc UC. No se permite copiar, reproducir, 
+reeditar, descargar, publicar, emitir, difundir, de forma total o parcial la presente obra, ni su incorporación a un 
+sistema informático, ni su transmisión en cualquier forma o por cualquier medio (electrónico, mecánico, 
+fotocopia, grabación u otros) sin autorización previa y por escrito de Fundación Instituto Profesional Duoc UC 
+La infracción de dichos derechos puede constituir un delito contra la propiedad intelectual. 
